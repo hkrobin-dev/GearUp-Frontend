@@ -5,6 +5,7 @@ import { FeaturedGear } from "@/components/gear/featured-gear";
 import WhyChooseUs from "@/components/LandingPage/whyChoseus";
 import HowItWorks from "@/components/LandingPage/HowItWorks";
 import Hero from "@/components/LandingPage/Hero/Hero";
+import CTASection from "@/components/LandingPage/CTA/CTASection";
 
 export default function HomePage() {
   return (
@@ -50,6 +51,7 @@ export default function HomePage() {
         <FeaturedGear />
         <WhyChooseUs/>
         <HowItWorks/>
+        <CTASection/>
       </section>
     </div>
   );
