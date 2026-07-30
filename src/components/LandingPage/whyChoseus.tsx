@@ -92,7 +92,7 @@ export default function WhyChooseUs() {
                 whileHover={{
                   y: -8,
                 }}
-                className="group rounded-3xl border border-border bg-card p-8 transition-all duration-300 hover:border-primary/30 hover:shadow-xl"
+                className="group rounded-3xl border border-border bg-card p-8 transition-all duration-300 hover:border-blue-300 hover:shadow-2xl"
               >
                 <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-primary/10 text-primary transition-all duration-300 group-hover:scale-110 group-hover:bg-primary group-hover:text-primary-foreground">
                   <Icon className="h-7 w-7 text-green-400" />
