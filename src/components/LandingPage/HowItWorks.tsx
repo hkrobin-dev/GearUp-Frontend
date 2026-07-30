@@ -81,7 +81,7 @@ export default function HowItWorks() {
                   delay: index * .1,
                 }}
                 whileHover={{ y: -8 }}
-                className="group relative rounded-3xl border border-border bg-card p-8 transition-all duration-300 hover:border-primary/40 hover:shadow-xl"
+                className="group relative rounded-3xl border border-border bg-card p-8 transition-all duration-300 hover:border-blue-400 hover:shadow-xl"
               >
                 {/* Number */}
                 <span className="absolute right-6 top-6 text-5xl font-bold text-primary/10">
