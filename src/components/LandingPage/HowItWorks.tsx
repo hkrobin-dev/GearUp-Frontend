@@ -2,12 +2,7 @@
 
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
-import {
-  Search,
-  CalendarDays,
-  CreditCard,
-  Backpack,
-} from "lucide-react";
+import { Search, CalendarDays, CreditCard, Backpack } from "lucide-react";
 
 export const howItWorks = [
   {
@@ -48,7 +43,7 @@ export default function HowItWorks() {
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: .6 }}
+          transition={{ duration: 0.6 }}
           className="mx-auto mb-20 max-w-3xl text-center"
         >
           <span className="rounded-full border border-primary/20 bg-primary/10 px-4 py-1 text-sm font-medium text-primary">
@@ -60,8 +55,8 @@ export default function HowItWorks() {
           </h2>
 
           <p className="mt-5 text-muted-foreground">
-            Renting sports and outdoor equipment is quick and hassle-free.
-            Just follow these four simple steps.
+            Renting sports and outdoor equipment is quick and hassle-free. Just
+            follow these four simple steps.
           </p>
         </motion.div>
 
@@ -77,11 +72,16 @@ export default function HowItWorks() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{
-                  duration: .4,
-                  delay: index * .1,
+                  duration: 0.4,
+                  delay: index * 0.1,
                 }}
                 whileHover={{ y: -8 }}
-                className="group relative rounded-3xl border border-border bg-card p-8 transition-all duration-300 hover:border-blue-400 hover:shadow-xl"
+                className={`
+group relative rounded-3xl border border-border bg-card p-8
+transition-all duration-300
+hover:border-primary hover:shadow-xl
+${index % 2 === 1 ? "xl:mt-16" : ""}
+`}
               >
                 {/* Number */}
                 <span className="absolute right-6 top-6 text-5xl font-bold text-primary/10">
@@ -93,9 +93,7 @@ export default function HowItWorks() {
                   <Icon size={30} />
                 </div>
 
-                <h3 className="mb-3 text-xl font-semibold">
-                  {step.title}
-                </h3>
+                <h3 className="mb-3 text-xl font-semibold">{step.title}</h3>
 
                 <p className="leading-7 text-muted-foreground">
                   {step.description}

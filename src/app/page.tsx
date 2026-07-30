@@ -4,40 +4,13 @@ import { Button } from "@/components/ui/button";
 import { FeaturedGear } from "@/components/gear/featured-gear";
 import WhyChooseUs from "@/components/LandingPage/whyChoseus";
 import HowItWorks from "@/components/LandingPage/HowItWorks";
+import Hero from "@/components/LandingPage/Hero/Hero";
 
 export default function HomePage() {
   return (
     <div>
       {/* Hero */}
-      <section className="relative overflow-hidden bg-slate-900">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_rgba(16,185,129,0.25),_transparent_50%)]" />
-        <div className="relative mx-auto max-w-7xl px-4 py-24 sm:px-6 lg:px-8 lg:py-32">
-          <div className="max-w-2xl">
-            <span className="inline-block rounded-full bg-emerald-500/10 px-3 py-1 text-sm font-medium text-emerald-400">
-              Sports & Outdoor Gear, On Demand
-            </span>
-            <h1 className="mt-4 text-4xl font-bold tracking-tight text-white sm:text-5xl lg:text-6xl">
-              Rent Sports & Outdoor Gear Instantly
-            </h1>
-            <p className="mt-6 text-lg text-slate-300">
-              From mountain bikes to camping tents, browse gear from trusted local
-              providers, pick your dates, and pay securely — ready when you are.
-            </p>
-            <div className="mt-8 flex flex-wrap gap-4">
-              <Link href="/gear">
-                <Button size="lg">
-                  Browse Gear <ArrowRight className="h-4 w-4" />
-                </Button>
-              </Link>
-              <Link href="/auth/register">
-                <Button size="lg" variant="outline" className="bg-white/5 text-white border-white/20 hover:bg-white/10">
-                  Become a Provider
-                </Button>
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
+     <Hero/>
 
       {/* Trust strip */}
       <section className="border-b border-slate-200 bg-white">
