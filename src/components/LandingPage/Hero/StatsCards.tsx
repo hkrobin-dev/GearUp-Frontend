@@ -6,7 +6,7 @@ import { Package, ShieldCheck, Users } from "lucide-react";
 const stats = [
   {
     icon: Users,
-    number: "12K+",
+    number: "10K+",
     label: "Happy Customers",
   },
   {
