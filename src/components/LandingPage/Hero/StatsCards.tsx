@@ -16,7 +16,7 @@ const stats = [
   },
   {
     icon: ShieldCheck,
-    number: "98%",
+    number: "97%",
     label: "Positive Reviews",
   },
 ];
