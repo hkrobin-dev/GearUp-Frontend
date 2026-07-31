@@ -9,7 +9,7 @@ export default function CTASection() {
   return (
     <section className="relative overflow-hidden py-24 mt-12 rounded-lg">
       {/* Animated Background */}
-      <div className="absolute inset-0 bg-gradient-to-r from-emerald-600 via-green-500 to-teal-600" />
+      <div className="absolute inset-0 bg-gradient-to-r from-emerald-500 via-green-500 to-teal-600" />
 
       {/* Floating Blur */}
       <FloatingBlobs />

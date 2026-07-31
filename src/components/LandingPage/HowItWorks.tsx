@@ -36,7 +36,7 @@ export const howItWorks = [
 ];
 export default function HowItWorks() {
   return (
-    <section className="py-4">
+    <section className="">
       <div className="mx-auto max-w-7xl px-6">
         {/* Header */}
         <motion.div

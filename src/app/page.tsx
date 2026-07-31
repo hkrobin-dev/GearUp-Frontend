@@ -6,12 +6,13 @@ import WhyChooseUs from "@/components/LandingPage/whyChoseus";
 import HowItWorks from "@/components/LandingPage/HowItWorks";
 import Hero from "@/components/LandingPage/Hero/Hero";
 import CTASection from "@/components/LandingPage/CTA/CTASection";
+import Testimonials from "@/components/LandingPage/Testimonials";
 
 export default function HomePage() {
   return (
     <div>
       {/* Hero */}
-     <Hero/>
+      <Hero />
 
       {/* Trust strip */}
       <section className="border-b border-slate-200 bg-white">
@@ -44,14 +45,18 @@ export default function HomePage() {
       <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
         <div className="mb-8 flex items-center justify-between">
           <h2 className="text-2xl font-bold text-slate-900">Featured Gear</h2>
-          <Link href="/gear" className="flex items-center gap-1 text-sm font-medium text-emerald-600 hover:text-emerald-700">
+          <Link
+            href="/gear"
+            className="flex items-center gap-1 text-sm font-medium text-emerald-600 hover:text-emerald-700"
+          >
             View all <ArrowRight className="h-4 w-4" />
           </Link>
         </div>
         <FeaturedGear />
-        <WhyChooseUs/>
-        <HowItWorks/>
-        <CTASection/>
+        <WhyChooseUs />
+        <HowItWorks />
+        <Testimonials />
+         <CTASection />
       </section>
     </div>
   );

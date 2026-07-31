@@ -18,3 +18,5 @@ export function useCreateReview() {
     onSuccess: () => qc.invalidateQueries({ queryKey: ["rentals"] }),
   });
 }
+
+
