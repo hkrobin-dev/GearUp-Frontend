@@ -11,7 +11,7 @@ const stats = [
   },
   {
     icon: Package,
-    number: "450+",
+    number: "350+",
     label: "Rental Products",
   },
   {
