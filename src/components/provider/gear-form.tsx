@@ -78,7 +78,18 @@ export function GearForm({
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="max-w-2xl space-y-4 rounded-xl border border-slate-200 bg-white p-6"
+      className="
+mx-auto
+w-full
+max-w-3xl
+space-y-6
+rounded-3xl
+border
+border-slate-200
+bg-white
+p-8
+shadow-xl
+"
     >
       <Input
         label="Gear name"
