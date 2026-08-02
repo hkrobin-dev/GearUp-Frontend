@@ -24,6 +24,7 @@ export default function AddGearPage() {
           .map((s) => s.trim())
           .filter(Boolean),
       });
+
       toast.success("Gear added to your inventory!");
       router.push("/dashboard/provider/gear");
     } catch (err: unknown) {
@@ -33,11 +34,23 @@ export default function AddGearPage() {
   };
 
   return (
-    <div>
-      <h1 className="text-2xl font-bold text-slate-900">Add New Gear</h1>
-      <p className="mt-1 text-slate-500">List a new item in your rental inventory.</p>
-      <div className="mt-6">
-        <GearForm onSubmit={handleSubmit} isSubmitting={addGear.isPending} submitLabel="Add Gear" />
+    <div className="min-h-screen  py-10">
+      <div className="mx-auto max-w-4xl">
+        <div className="mb-8 text-center">
+          <h1 className="text-3xl font-bold text-slate-900">
+            Add New Gear
+          </h1>
+
+          <p className="mt-2 text-slate-500">
+            List a new item in your rental inventory.
+          </p>
+        </div>
+
+        <GearForm
+          onSubmit={handleSubmit}
+          isSubmitting={addGear.isPending}
+          submitLabel="Add Gear"
+        />
       </div>
     </div>
   );
