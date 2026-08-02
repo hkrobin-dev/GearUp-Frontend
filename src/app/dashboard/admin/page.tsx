@@ -5,6 +5,7 @@ import { StatCard } from "@/components/ui/stat-card";
 import { Users, Boxes, ClipboardList, DollarSign } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { formatCurrency } from "@/lib/utils";
+import { RevenueChart } from "@/components/ui/revenue-chart";
 
 export default function AdminOverviewPage() {
   const { data: users, isLoading: usersLoading } = useAdminUsers();
@@ -35,31 +36,35 @@ export default function AdminOverviewPage() {
           ))}
         </div>
       ) : (
-        <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          <StatCard
-            label="Total Users"
-            value={users?.length ?? 0}
-            icon={Users}
-          />
+        <>
+          <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            <StatCard
+              label="Total Users"
+              value={users?.length ?? 0}
+              icon={Users}
+            />
 
-          <StatCard
-            label="Gear Listings"
-            value={gear?.length ?? 0}
-            icon={Boxes}
-          />
+            <StatCard
+              label="Gear Listings"
+              value={gear?.length ?? 0}
+              icon={Boxes}
+            />
 
-          <StatCard
-            label="Total Rentals"
-            value={rentals?.length ?? 0}
-            icon={ClipboardList}
-          />
+            <StatCard
+              label="Total Rentals"
+              value={rentals?.length ?? 0}
+              icon={ClipboardList}
+            />
 
-          <StatCard
-            label="Total Revenue"
-            value={formatCurrency(totalRevenue)}
-            icon={DollarSign}
-          />
-        </div>
+            <StatCard
+              label="Total Revenue"
+              value={formatCurrency(totalRevenue)}
+              icon={DollarSign}
+            />
+          </div>
+
+          <RevenueChart rentals={rentals ?? []} />
+        </>
       )}
     </div>
   );
