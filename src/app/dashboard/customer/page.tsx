@@ -28,13 +28,18 @@ export default function CustomerOverviewPage() {
 
   return (
     <div className="space-y-8">
+
       {/* Header */}
       <div className="rounded-2xl bg-gradient-to-r from-emerald-600 via-emerald-500 to-teal-500 p-8 text-white shadow-lg">
-        <h1 className="text-3xl font-bold">Welcome Back 👋</h1>
+        <h1 className="text-3xl font-bold">
+          Welcome Back 👋
+        </h1>
+
         <p className="mt-2 text-emerald-50">
           Track your rentals, monitor active orders, and explore new gear.
         </p>
       </div>
+
 
       {/* Stats */}
       <div className="grid grid-cols-1 gap-5 md:grid-cols-3">
@@ -43,11 +48,13 @@ export default function CustomerOverviewPage() {
           value={rentals?.length ?? 0}
           icon={ClipboardList}
         />
+
         <StatCard
           label="Active Rentals"
           value={active}
           icon={Clock}
         />
+
         <StatCard
           label="Completed"
           value={completed}
@@ -55,25 +62,87 @@ export default function CustomerOverviewPage() {
         />
       </div>
 
+
       {/* Recent Orders */}
-      <div className="rounded-2xl border border-slate-200 bg-white shadow-sm">
-        <div className="flex items-center justify-between border-b border-slate-100 px-6 py-5">
+      <div
+        className="
+          rounded-2xl
+          border
+          border-slate-200
+          bg-white
+          shadow-sm
+
+          dark:border-slate-700
+          dark:bg-slate-900
+        "
+      >
+
+        <div
+          className="
+            flex
+            items-center
+            justify-between
+            border-b
+            border-slate-100
+            px-6
+            py-5
+
+            dark:border-slate-700
+          "
+        >
+
           <div>
-            <h2 className="text-lg font-semibold text-slate-900">
+
+            <h2
+              className="
+                text-lg
+                font-semibold
+                text-slate-900
+
+                dark:text-white
+              "
+            >
               Recent Orders
             </h2>
-            <p className="text-sm text-slate-500">
+
+            <p
+              className="
+                text-sm
+                text-slate-500
+
+                dark:text-slate-400
+              "
+            >
               Your latest rental activity
             </p>
+
           </div>
 
           <Link
             href="/dashboard/customer/orders"
-            className="inline-flex items-center gap-2 rounded-lg bg-emerald-50 px-4 py-2 text-sm font-semibold text-emerald-600 transition hover:bg-emerald-100"
+            className="
+              inline-flex
+              items-center
+              gap-2
+              rounded-lg
+              bg-emerald-50
+              px-4
+              py-2
+              text-sm
+              font-semibold
+              text-emerald-600
+              transition
+              hover:bg-emerald-100
+
+              dark:bg-emerald-950
+              dark:text-emerald-300
+              dark:hover:bg-emerald-900
+            "
           >
             View all
             <ArrowRight className="h-4 w-4" />
           </Link>
+
         </div>
 
         {isLoading ? (
@@ -95,48 +164,115 @@ export default function CustomerOverviewPage() {
           </div>
         ) : (
           <div className="overflow-x-auto">
+
             <table className="w-full">
-              <thead className="bg-slate-50">
-                <tr className="text-left text-xs font-semibold uppercase tracking-wider text-slate-500">
+
+              <thead
+                className="
+                  bg-slate-50
+
+                  dark:bg-slate-800
+                "
+              >
+
+                <tr
+                  className="
+                    text-left
+                    text-xs
+                    font-semibold
+                    uppercase
+                    tracking-wider
+                    text-slate-500
+
+                    dark:text-slate-400
+                  "
+                >
                   <th className="px-6 py-4">Gear</th>
                   <th className="px-6 py-4">Rental Date</th>
                   <th className="px-6 py-4">Amount</th>
                   <th className="px-6 py-4">Status</th>
                 </tr>
+
               </thead>
 
-              <tbody className="divide-y divide-slate-100">
+              <tbody
+                className="
+                  divide-y
+                  divide-slate-100
+
+                  dark:divide-slate-700
+                "
+              >
+
                 {rentals.slice(0, 5).map((r) => (
+
                   <tr
                     key={r.id}
-                    className="transition hover:bg-slate-50"
+                    className="
+                      transition
+                      hover:bg-slate-50
+
+                      dark:hover:bg-slate-800
+                    "
                   >
+
                     <td className="px-6 py-5">
-                      <p className="font-semibold text-slate-800">
+                      <p
+                        className="
+                          font-semibold
+                          text-slate-800
+
+                          dark:text-slate-100
+                        "
+                      >
                         {r.items
                           .map((i) => i.gearItem.name)
                           .join(", ")}
                       </p>
                     </td>
 
-                    <td className="px-6 py-5 text-slate-600">
+                    <td
+                      className="
+                        px-6
+                        py-5
+                        text-slate-600
+
+                        dark:text-slate-400
+                      "
+                    >
                       {formatDate(r.startDate)}
                     </td>
 
-                    <td className="px-6 py-5 font-semibold text-slate-800">
+                    <td
+                      className="
+                        px-6
+                        py-5
+                        font-semibold
+                        text-slate-800
+
+                        dark:text-white
+                      "
+                    >
                       {formatCurrency(r.totalAmount)}
                     </td>
 
                     <td className="px-6 py-5">
                       <StatusBadge status={r.status} />
                     </td>
+
                   </tr>
+
                 ))}
+
               </tbody>
+
             </table>
+
           </div>
         )}
+
       </div>
+
     </div>
   );
 }

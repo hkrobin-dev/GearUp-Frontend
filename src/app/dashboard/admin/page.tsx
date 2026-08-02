@@ -20,8 +20,13 @@ export default function AdminOverviewPage() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold text-slate-900">Platform Overview</h1>
-      <p className="mt-1 text-slate-500">Global stats across GearUp.</p>
+      <h1 className="text-2xl font-bold text-slate-900 dark:text-white">
+        Platform Overview
+      </h1>
+
+      <p className="mt-1 text-slate-500 dark:text-slate-400">
+        Global stats across GearUp.
+      </p>
 
       {isLoading ? (
         <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -31,10 +36,29 @@ export default function AdminOverviewPage() {
         </div>
       ) : (
         <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          <StatCard label="Total Users" value={users?.length ?? 0} icon={Users} />
-          <StatCard label="Gear Listings" value={gear?.length ?? 0} icon={Boxes} />
-          <StatCard label="Total Rentals" value={rentals?.length ?? 0} icon={ClipboardList} />
-          <StatCard label="Total Revenue" value={formatCurrency(totalRevenue)} icon={DollarSign} />
+          <StatCard
+            label="Total Users"
+            value={users?.length ?? 0}
+            icon={Users}
+          />
+
+          <StatCard
+            label="Gear Listings"
+            value={gear?.length ?? 0}
+            icon={Boxes}
+          />
+
+          <StatCard
+            label="Total Rentals"
+            value={rentals?.length ?? 0}
+            icon={ClipboardList}
+          />
+
+          <StatCard
+            label="Total Revenue"
+            value={formatCurrency(totalRevenue)}
+            icon={DollarSign}
+          />
         </div>
       )}
     </div>

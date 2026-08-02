@@ -15,7 +15,7 @@ export default function FloatingBlobs() {
           repeat: Infinity,
           ease: "easeInOut",
         }}
-        className="absolute -left-24 top-0 h-72 w-72 rounded-full bg-emerald-400/20 blur-[120px]"
+        className="absolute -left-24 top-0 h-72 w-72 rounded-full bg-emerald-400/10 blur-[120px] dark:bg-emerald-400/20"
       />
 
       <motion.div
@@ -28,7 +28,7 @@ export default function FloatingBlobs() {
           repeat: Infinity,
           ease: "easeInOut",
         }}
-        className="absolute right-0 top-32 h-80 w-80 rounded-full bg-orange-400/20 blur-[140px]"
+        className="absolute right-0 top-32 h-80 w-80 rounded-full bg-orange-400/10 blur-[140px] dark:bg-orange-400/20"
       />
 
       <motion.div
@@ -40,7 +40,7 @@ export default function FloatingBlobs() {
           repeat: Infinity,
           ease: "easeInOut",
         }}
-        className="absolute bottom-0 left-1/2 h-64 w-64 -translate-x-1/2 rounded-full bg-cyan-400/10 blur-[130px]"
+        className="absolute bottom-0 left-1/2 h-64 w-64 -translate-x-1/2 rounded-full bg-cyan-400/5 blur-[130px] dark:bg-cyan-400/10"
       />
     </>
   );

@@ -12,16 +12,27 @@ export default function ProviderOverviewPage() {
   const { data: gear, isLoading: gearLoading } = useProviderGear();
   const { data: orders, isLoading: ordersLoading } = useProviderOrders();
 
-  const pending = orders?.filter((o) => o.status === "PLACED").length ?? 0;
-  const active = orders?.filter((o) => !["RETURNED", "CANCELLED"].includes(o.status)).length ?? 0;
+  const pending =
+    orders?.filter((o) => o.status === "PLACED").length ?? 0;
+
+  const active =
+    orders?.filter(
+      (o) => !["RETURNED", "CANCELLED"].includes(o.status)
+    ).length ?? 0;
 
   return (
     <div>
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h1 className="text-2xl font-bold text-slate-900">Provider Dashboard</h1>
-          <p className="mt-1 text-slate-500">Manage your inventory and incoming orders.</p>
+          <h1 className="text-2xl font-bold text-slate-900 dark:text-white">
+            Provider Dashboard
+          </h1>
+
+          <p className="mt-1 text-slate-500 dark:text-slate-400">
+            Manage your inventory and incoming orders.
+          </p>
         </div>
+
         <Link href="/dashboard/provider/gear/new">
           <Button>Add New Gear</Button>
         </Link>
@@ -35,9 +46,23 @@ export default function ProviderOverviewPage() {
         </div>
       ) : (
         <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-3">
-          <StatCard label="Gear Listed" value={gear?.length ?? 0} icon={Package} />
-          <StatCard label="Active Orders" value={active} icon={Clock} />
-          <StatCard label="Pending Confirmation" value={pending} icon={ClipboardList} />
+          <StatCard
+            label="Gear Listed"
+            value={gear?.length ?? 0}
+            icon={Package}
+          />
+
+          <StatCard
+            label="Active Orders"
+            value={active}
+            icon={Clock}
+          />
+
+          <StatCard
+            label="Pending Confirmation"
+            value={pending}
+            icon={ClipboardList}
+          />
         </div>
       )}
     </div>

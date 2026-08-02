@@ -56,8 +56,8 @@ export default function Testimonials() {
 
   if (isLoading) {
     return (
-      <section className="py-20">
-        <div className="container mx-auto text-center">
+      <section className="bg-white py-20 dark:bg-slate-950">
+        <div className="container mx-auto text-center text-slate-600 dark:text-slate-400">
           Loading testimonials...
         </div>
       </section>
@@ -67,18 +67,18 @@ export default function Testimonials() {
   if (!reviews.length) return null;
 
   return (
-    <section className=" py-20">
+    <section className="bg-white py-20 dark:bg-slate-950">
       <div className="container mx-auto px-4">
         <div className="mx-auto mb-12 max-w-2xl text-center">
-          <span className="rounded-full border border-emerald-200 bg-emerald-50 px-4 py-1 text-sm font-medium text-emerald-600">
+          <span className="rounded-full border border-emerald-200 bg-emerald-50 px-4 py-1 text-sm font-medium text-emerald-600 dark:border-emerald-800 dark:bg-emerald-900/20 dark:text-emerald-400">
             Testimonials
           </span>
 
-          <h2 className="mt-4 text-4xl font-bold">
+          <h2 className="mt-4 text-4xl font-bold text-slate-900 dark:text-white">
             What Our Customers Say
           </h2>
 
-          <p className="mt-3 text-slate-600">
+          <p className="mt-3 text-slate-600 dark:text-slate-400">
             Trusted by outdoor enthusiasts who rent quality gear through
             GearUp.
           </p>
@@ -91,8 +91,8 @@ export default function Testimonials() {
                 key={review.id}
                 className="min-w-full shrink-0 px-3 md:min-w-[50%] lg:min-w-[33.333%]"
               >
-                <div className="h-full rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition-all duration-300 hover:-translate-y-2 hover:shadow-xl">
-                  <Quote className="mb-4 h-8 w-8 text-emerald-500" />
+                <div className="h-full rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition-all duration-300 hover:-translate-y-2 hover:shadow-xl dark:border-slate-800 dark:bg-slate-900">
+                  <Quote className="mb-4 h-8 w-8 text-emerald-500 dark:text-emerald-400" />
 
                   <div className="mb-4 flex gap-1">
                     {Array.from({ length: 5 }).map((_, index) => (
@@ -101,13 +101,13 @@ export default function Testimonials() {
                         className={`h-4 w-4 ${
                           index < review.rating
                             ? "fill-yellow-400 text-yellow-400"
-                            : "text-slate-300"
+                            : "text-slate-300 dark:text-slate-600"
                         }`}
                       />
                     ))}
                   </div>
 
-                  <p className="min-h-[90px] italic text-slate-600">
+                  <p className="min-h-[90px] italic text-slate-600 dark:text-slate-300">
                     "
                     {review.comment ||
                       "Excellent rental experience. Highly recommended!"}
@@ -115,18 +115,18 @@ export default function Testimonials() {
                   </p>
 
                   <div className="mt-6 flex items-center gap-3">
-                    <div className="flex h-12 w-12 items-center justify-center rounded-full bg-emerald-500 text-lg font-bold text-white">
+                    <div className="flex h-12 w-12 items-center justify-center rounded-full bg-emerald-500 text-lg font-bold text-white dark:bg-emerald-600">
                       {(review.customer?.name ?? "A")
                         .charAt(0)
                         .toUpperCase()}
                     </div>
 
                     <div>
-                      <h4 className="font-semibold text-slate-900">
+                      <h4 className="font-semibold text-slate-900 dark:text-white">
                         {review.customer?.name ?? "Anonymous"}
                       </h4>
 
-                      <p className="text-sm text-slate-500">
+                      <p className="text-sm text-slate-500 dark:text-slate-400">
                         {new Date(review.createdAt).toLocaleDateString()}
                       </p>
                     </div>
@@ -146,7 +146,7 @@ export default function Testimonials() {
               className={`h-3 rounded-full transition-all duration-300 ${
                 selectedIndex === index
                   ? "w-8 bg-emerald-500"
-                  : "w-3 bg-slate-300"
+                  : "w-3 bg-slate-300 dark:bg-slate-700"
               }`}
             />
           ))}

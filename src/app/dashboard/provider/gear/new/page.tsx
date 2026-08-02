@@ -34,14 +34,14 @@ export default function AddGearPage() {
   };
 
   return (
-    <div className="min-h-screen  py-10">
+    <div className="min-h-screen py-10">
       <div className="mx-auto max-w-4xl">
         <div className="mb-8 text-center">
-          <h1 className="text-3xl font-bold text-slate-900">
+          <h1 className="text-3xl font-bold text-slate-900 dark:text-white">
             Add New Gear
           </h1>
 
-          <p className="mt-2 text-slate-500">
+          <p className="mt-2 text-slate-500 dark:text-slate-400">
             List a new item in your rental inventory.
           </p>
         </div>

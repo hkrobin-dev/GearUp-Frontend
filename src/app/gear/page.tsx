@@ -16,7 +16,9 @@ export default function GearBrowsePage() {
     minPrice: "",
     maxPrice: "",
   });
+
   const [page, setPage] = useState(1);
+
 
   const { data, isLoading, isError } = useGearList({
     search: filters.search || undefined,
@@ -27,52 +29,142 @@ export default function GearBrowsePage() {
     limit: 12,
   });
 
+
   const handleFilterChange = (values: GearFilterValues) => {
     setFilters(values);
     setPage(1);
   };
 
+
   return (
-    <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
+    <div
+      className="
+        mx-auto
+        max-w-7xl
+        px-4
+        py-10
+        sm:px-6
+        lg:px-8
+
+        dark:text-white
+      "
+    >
+
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-slate-900">Browse Gear</h1>
-        <p className="mt-1 text-slate-500">
+
+        <h1
+          className="
+            text-3xl
+            font-bold
+            text-slate-900
+
+            dark:text-white
+          "
+        >
+          Browse Gear
+        </h1>
+
+
+        <p
+          className="
+            mt-1
+            text-slate-500
+
+            dark:text-slate-400
+          "
+        >
           {data?.pagination.total ?? "..."} items available for rent
         </p>
+
       </div>
 
-      <div className="grid grid-cols-1 gap-8 lg:grid-cols-[280px_1fr]">
-        <GearFilters values={filters} onChange={handleFilterChange} />
+
+
+      <div
+        className="
+          grid
+          grid-cols-1
+          gap-8
+          lg:grid-cols-[280px_1fr]
+        "
+      >
+
+        <GearFilters
+          values={filters}
+          onChange={handleFilterChange}
+        />
+
+
 
         <div>
+
           {isLoading ? (
-            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-3">
+
+            <div
+              className="
+                grid
+                grid-cols-1
+                gap-6
+                sm:grid-cols-2
+                xl:grid-cols-3
+              "
+            >
+
               {Array.from({ length: 6 }).map((_, i) => (
                 <GearCardSkeleton key={i} />
               ))}
+
             </div>
+
+
           ) : isError || !data || data.gear.length === 0 ? (
+
+
             <EmptyState
               icon={PackageSearch}
               title="No gear found"
               description="Try adjusting your filters or search term."
             />
+
+
           ) : (
+
             <>
-              <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-3">
+
+              <div
+                className="
+                  grid
+                  grid-cols-1
+                  gap-6
+                  sm:grid-cols-2
+                  xl:grid-cols-3
+                "
+              >
+
                 {data.gear.map((gear) => (
-                  <GearCard key={gear.id} gear={gear} />
+                  <GearCard
+                    key={gear.id}
+                    gear={gear}
+                  />
                 ))}
+
               </div>
+
+
               <Pagination
                 page={data.pagination.page}
                 totalPages={data.pagination.totalPages}
                 onPageChange={setPage}
               />
+
             </>
+
           )}
+
         </div>
+
       </div>
+
     </div>
   );
 }

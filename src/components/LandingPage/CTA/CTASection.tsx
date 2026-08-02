@@ -7,9 +7,9 @@ import FeatureList from "./FeatureList";
 
 export default function CTASection() {
   return (
-    <section className="relative overflow-hidden py-24 mt-12 rounded-lg">
+    <section className="relative mt-12 overflow-hidden rounded-lg py-24">
       {/* Animated Background */}
-      <div className="absolute inset-0 bg-gradient-to-r from-emerald-500 via-green-500 to-teal-600" />
+      <div className="absolute inset-0 bg-gradient-to-r from-emerald-500 via-green-500 to-teal-600 dark:from-emerald-700 dark:via-green-800 dark:to-teal-900" />
 
       {/* Floating Blur */}
       <FloatingBlobs />
@@ -21,23 +21,53 @@ export default function CTASection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.7 }}
-          className="rounded-[40px] border border-white/20 bg-white/10 p-10 text-center shadow-2xl backdrop-blur-xl md:p-16"
+          className="
+            rounded-[40px]
+            border
+            border-white/20
+            bg-white/90
+            p-10
+            text-center
+            shadow-2xl
+            backdrop-blur-xl
+
+            dark:bg-white/10
+
+            md:p-16
+          "
         >
           {/* Badge */}
-          <span className="inline-flex rounded-full border border-white/20 bg-white/10 px-5 py-2 text-sm font-semibold text-white backdrop-blur">
+          <span
+            className="
+              inline-flex
+              rounded-full
+              border
+              border-emerald-200
+              bg-emerald-50
+              px-5
+              py-2
+              text-sm
+              font-semibold
+              text-emerald-700
+
+              dark:border-white/20
+              dark:bg-white/10
+              dark:text-white
+            "
+          >
             ✨ Join Thousands of Outdoor Enthusiasts
           </span>
 
           {/* Heading */}
-          <h2 className="mt-8 text-4xl font-bold leading-tight text-white md:text-6xl">
+          <h2 className="mt-8 text-4xl font-bold leading-tight text-slate-900 dark:text-white md:text-6xl">
             Ready for Your
-            <span className="block text-orange-300">
+            <span className="block text-orange-500 dark:text-orange-300">
               Next Adventure?
             </span>
           </h2>
 
           {/* Description */}
-          <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-white/90">
+          <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-slate-700 dark:text-white/90">
             Rent premium sports & outdoor gear or earn money by listing
             your own equipment on GearUp. Start your journey today.
           </p>

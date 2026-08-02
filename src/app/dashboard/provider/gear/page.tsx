@@ -31,11 +31,16 @@ export default function ProviderGearListPage() {
     }
   };
 
-  const toggleStatus = async (id: string, current: "ACTIVE" | "INACTIVE") => {
+  const toggleStatus = async (
+    id: string,
+    current: "ACTIVE" | "INACTIVE"
+  ) => {
     try {
       await updateGear.mutateAsync({
         id,
-        payload: { status: current === "ACTIVE" ? "INACTIVE" : "ACTIVE" },
+        payload: {
+          status: current === "ACTIVE" ? "INACTIVE" : "ACTIVE",
+        },
       });
       toast.success("Availability updated");
     } catch (err: unknown) {
@@ -48,17 +53,23 @@ export default function ProviderGearListPage() {
     <div>
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-slate-900">My Gear</h1>
-          <p className="mt-1 text-slate-500">Manage your rental inventory.</p>
+          <h1 className="text-2xl font-bold text-slate-900 dark:text-white">
+            My Gear
+          </h1>
+
+          <p className="mt-1 text-slate-500 dark:text-slate-400">
+            Manage your rental inventory.
+          </p>
         </div>
+
         <Link href="/dashboard/provider/gear/new">
           <Button>Add Gear</Button>
         </Link>
       </div>
 
-      <div className="mt-6 overflow-x-auto rounded-xl border border-slate-200 bg-white">
+      <div className="mt-6 overflow-x-auto rounded-xl border border-slate-200 bg-white dark:border-slate-700 dark:bg-slate-900">
         <table className="w-full text-sm">
-          <thead className="border-b border-slate-200 bg-slate-50 text-left text-xs font-semibold uppercase text-slate-500">
+          <thead className="border-b border-slate-200 bg-slate-50 text-left text-xs font-semibold uppercase text-slate-500 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-400">
             <tr>
               <th className="px-4 py-3">Gear</th>
               <th className="px-4 py-3">Price/day</th>
@@ -67,20 +78,29 @@ export default function ProviderGearListPage() {
               <th className="px-4 py-3 text-right">Actions</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-slate-100">
+
+          <tbody className="divide-y divide-slate-100 dark:divide-slate-700">
             {isLoading ? (
-              Array.from({ length: 3 }).map((_, i) => <TableRowSkeleton key={i} cols={5} />)
+              Array.from({ length: 3 }).map((_, i) => (
+                <TableRowSkeleton key={i} cols={5} />
+              ))
             ) : !gear || gear.length === 0 ? (
               <tr>
                 <td colSpan={5} className="py-12">
-                  <EmptyState icon={Package} title="No gear listed yet" />
+                  <EmptyState
+                    icon={Package}
+                    title="No gear listed yet"
+                  />
                 </td>
               </tr>
             ) : (
               gear.map((item) => (
-                <tr key={item.id}>
+                <tr
+                  key={item.id}
+                  className="transition-colors hover:bg-slate-50 dark:hover:bg-slate-800"
+                >
                   <td className="flex items-center gap-3 px-4 py-3">
-                    <div className="relative h-10 w-10 shrink-0 overflow-hidden rounded-md bg-slate-100">
+                    <div className="relative h-10 w-10 shrink-0 overflow-hidden rounded-md bg-slate-100 dark:bg-slate-800">
                       <Image
                         src={item.images[0] || "/gear-placeholder.svg"}
                         alt={item.name}
@@ -89,25 +109,45 @@ export default function ProviderGearListPage() {
                         className="object-cover"
                       />
                     </div>
-                    <span className="font-medium text-slate-900">{item.name}</span>
+
+                    <span className="font-medium text-slate-900 dark:text-white">
+                      {item.name}
+                    </span>
                   </td>
-                  <td className="px-4 py-3">{formatCurrency(item.pricePerDay)}</td>
-                  <td className="px-4 py-3">
+
+                  <td className="px-4 py-3 text-slate-700 dark:text-slate-300">
+                    {formatCurrency(item.pricePerDay)}
+                  </td>
+
+                  <td className="px-4 py-3 text-slate-700 dark:text-slate-300">
                     {item.availableStock}/{item.stock}
                   </td>
+
                   <td className="px-4 py-3">
-                    <button onClick={() => toggleStatus(item.id, item.status)}>
+                    <button
+                      onClick={() =>
+                        toggleStatus(item.id, item.status)
+                      }
+                    >
                       <StatusBadge status={item.status} />
                     </button>
                   </td>
+
                   <td className="px-4 py-3">
                     <div className="flex justify-end gap-2">
-                      <Link href={`/dashboard/provider/gear/${item.id}/edit`}>
+                      <Link
+                        href={`/dashboard/provider/gear/${item.id}/edit`}
+                      >
                         <Button size="sm" variant="outline">
                           <Pencil className="h-3.5 w-3.5" />
                         </Button>
                       </Link>
-                      <Button size="sm" variant="danger" onClick={() => setDeleteTarget(item.id)}>
+
+                      <Button
+                        size="sm"
+                        variant="danger"
+                        onClick={() => setDeleteTarget(item.id)}
+                      >
                         <Trash2 className="h-3.5 w-3.5" />
                       </Button>
                     </div>

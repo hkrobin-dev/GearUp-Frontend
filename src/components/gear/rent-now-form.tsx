@@ -38,10 +38,14 @@ export function RentNowForm({ gear }: { gear: GearItem }) {
 
   const estimate = useMemo(() => {
     if (!startDate || !endDate) return null;
+
     const days = rentalDays(startDate, endDate);
+
     if (days <= 0) return null;
+
     return days * Number(gear.pricePerDay) * quantity;
   }, [startDate, endDate, quantity, gear.pricePerDay]);
+
 
   const onSubmit = async (values: FormOutput) => {
     if (!isHydrated) return;
@@ -63,25 +67,51 @@ export function RentNowForm({ gear }: { gear: GearItem }) {
         endDate: values.endDate,
         items: [{ gearItemId: gear.id, quantity: values.quantity }],
       });
+
       toast.success("Rental order placed! Proceed to payment.");
       router.push(`/dashboard/customer/orders/${order.id}/pay`);
+
     } catch (err: unknown) {
       const e = err as { message?: string };
       toast.error(e.message || "Failed to create rental order");
     }
   };
 
+
   const today = new Date().toISOString().split("T")[0];
   const outOfStock = gear.availableStock <= 0;
+
 
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="space-y-4 rounded-xl border border-slate-200 bg-white p-5"
+      className="
+        space-y-4
+        rounded-xl
+        border
+        border-slate-200
+        bg-white
+        p-5
+
+        dark:border-slate-700
+        dark:bg-slate-900
+      "
     >
-      <h3 className="font-semibold text-slate-900">Rent this gear</h3>
+
+      <h3
+        className="
+          font-semibold
+          text-slate-900
+
+          dark:text-white
+        "
+      >
+        Rent this gear
+      </h3>
+
 
       <div className="grid grid-cols-2 gap-3">
+
         <Input
           type="date"
           label="Start date"
@@ -89,6 +119,8 @@ export function RentNowForm({ gear }: { gear: GearItem }) {
           error={errors.startDate?.message}
           {...register("startDate")}
         />
+
+
         <Input
           type="date"
           label="End date"
@@ -96,7 +128,9 @@ export function RentNowForm({ gear }: { gear: GearItem }) {
           error={errors.endDate?.message}
           {...register("endDate")}
         />
+
       </div>
+
 
       <Input
         type="number"
@@ -107,15 +141,41 @@ export function RentNowForm({ gear }: { gear: GearItem }) {
         {...register("quantity")}
       />
 
-      <p className="text-xs text-slate-500">
-        {gear.availableStock} unit{gear.availableStock === 1 ? "" : "s"} available
+
+      <p
+        className="
+          text-xs
+          text-slate-500
+
+          dark:text-slate-400
+        "
+      >
+        {gear.availableStock} unit
+        {gear.availableStock === 1 ? "" : "s"} available
       </p>
 
+
       {estimate !== null && (
-        <div className="rounded-lg bg-emerald-50 px-3 py-2 text-sm text-emerald-800">
-          Estimated total: <span className="font-bold">{formatCurrency(estimate)}</span>
+        <div
+          className="
+            rounded-lg
+            bg-emerald-50
+            px-3
+            py-2
+            text-sm
+            text-emerald-800
+
+            dark:bg-emerald-950
+            dark:text-emerald-300
+          "
+        >
+          Estimated total:{" "}
+          <span className="font-bold">
+            {formatCurrency(estimate)}
+          </span>
         </div>
       )}
+
 
       <Button
         type="submit"
@@ -125,6 +185,8 @@ export function RentNowForm({ gear }: { gear: GearItem }) {
       >
         {outOfStock ? "Out of stock" : "Rent Now"}
       </Button>
+
+
     </form>
   );
 }

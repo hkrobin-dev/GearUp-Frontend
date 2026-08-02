@@ -65,7 +65,7 @@ export function GearForm({
       {
         method: "POST",
         body: formData,
-      },
+      }
     );
 
     const data = await res.json();
@@ -79,17 +79,19 @@ export function GearForm({
     <form
       onSubmit={handleSubmit(onSubmit)}
       className="
-mx-auto
-w-full
-max-w-3xl
-space-y-6
-rounded-3xl
-border
-border-slate-200
-bg-white
-p-8
-shadow-xl
-"
+        mx-auto
+        w-full
+        max-w-3xl
+        space-y-6
+        rounded-3xl
+        border
+        border-slate-200
+        bg-white
+        p-8
+        shadow-xl
+        dark:border-slate-700
+        dark:bg-slate-900
+      "
     >
       <Input
         label="Gear name"
@@ -105,13 +107,14 @@ shadow-xl
         {...register("description")}
       />
 
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
         <Input
           label="Brand (optional)"
           placeholder="Trek"
           error={errors.brand?.message}
           {...register("brand")}
         />
+
         <Select
           label="Category"
           error={errors.categoryId?.message}
@@ -120,6 +123,7 @@ shadow-xl
           <option value="">
             {categoriesLoading ? "Loading..." : "Select category"}
           </option>
+
           {categories?.map((c) => (
             <option key={c.id} value={c.id}>
               {c.name}
@@ -128,7 +132,7 @@ shadow-xl
         </Select>
       </div>
 
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
         <Input
           type="number"
           step="0.01"
@@ -137,6 +141,7 @@ shadow-xl
           error={errors.pricePerDay?.message}
           {...register("pricePerDay")}
         />
+
         <Input
           type="number"
           min={0}
@@ -147,19 +152,32 @@ shadow-xl
       </div>
 
       <div className="space-y-2">
-        <label className="text-sm font-medium">Gear Image</label>
+        <label className="text-sm font-medium text-slate-700 dark:text-slate-300">
+          Gear Image
+        </label>
 
-        <Input type="file" accept="image/*" onChange={uploadImage} />
+        <Input
+          type="file"
+          accept="image/*"
+          onChange={uploadImage}
+        />
 
-        {uploading && <p className="text-sm text-blue-500">Uploading...</p>}
+        {uploading && (
+          <p className="text-sm text-blue-500 dark:text-blue-400">
+            Uploading...
+          </p>
+        )}
 
         <input type="hidden" {...register("imagesText")} />
 
         {errors.imagesText && (
-          <p className="text-sm text-red-500">{errors.imagesText.message}</p>
+          <p className="text-sm text-red-500 dark:text-red-400">
+            {errors.imagesText.message}
+          </p>
         )}
       </div>
-      <p className="-mt-2 text-xs text-slate-400">
+
+      <p className="-mt-2 text-xs text-slate-400 dark:text-slate-500">
         Paste direct links to images. First link becomes the cover photo.
       </p>
 
