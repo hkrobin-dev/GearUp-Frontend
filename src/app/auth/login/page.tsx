@@ -20,13 +20,18 @@ function LoginForm() {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<LoginFormValues>({ resolver: zodResolver(loginSchema) });
+  } = useForm<LoginFormValues>({
+    resolver: zodResolver(loginSchema),
+  });
 
   const onSubmit = async (values: LoginFormValues) => {
     try {
       const data = await loginMutation.mutateAsync(values);
+
       toast.success(`Welcome back, ${data.user.name}!`);
+
       const redirect = searchParams.get("redirect");
+
       if (redirect) {
         router.push(redirect);
       } else {
@@ -36,6 +41,7 @@ function LoginForm() {
             : data.user.role === "PROVIDER"
               ? "/dashboard/provider"
               : "/dashboard/customer";
+
         router.push(dest);
       }
     } catch (err: unknown) {
@@ -45,9 +51,26 @@ function LoginForm() {
   };
 
   return (
-    <div className="min-h-[calc(100vh-4rem)] bg-gradient-to-br from-emerald-50 via-white to-cyan-50 px-6 py-10">
+    <div
+      className="
+        min-h-[calc(100vh-4rem)]
+        bg-gradient-to-br
+        from-emerald-50
+        via-white
+        to-cyan-50
+
+        dark:from-slate-950
+        dark:via-slate-900
+        dark:to-emerald-950
+
+        px-6
+        py-10
+        transition-colors
+        duration-300
+      "
+    >
       <div className="mx-auto grid max-w-6xl items-center gap-10 lg:grid-cols-2">
-        {" "}
+
         <div className="hidden lg:flex justify-center">
           <img
             src="/Login-rafiki.png"
@@ -55,48 +78,122 @@ function LoginForm() {
             className="w-full max-w-lg animate-float"
           />
         </div>
-        <div className="rounded-3xl border border-slate-200 bg-white p-10 shadow-2xl">
-          <h1 className="text-2xl font-bold text-slate-900">Welcome back</h1>
-        <p className="mt-1 text-sm text-slate-500">
-          Log in to your GearUp account.
-        </p>
-        <form onSubmit={handleSubmit(onSubmit)} className="mt-8 space-y-4">
-          <Input
-            type="email"
-            label="Email"
-            placeholder="you@example.com"
-            error={errors.email?.message}
-            {...register("email")}
-          />
-          <Input
-            type="password"
-            label="Password"
-            placeholder="Your password"
-            error={errors.password?.message}
-            {...register("password")}
-          />
-          <Button
-            type="submit"
-            className="w-full"
-            isLoading={loginMutation.isPending}
+
+
+        <div
+          className="
+            rounded-3xl
+            border
+            border-slate-200
+            bg-white
+            p-10
+            shadow-2xl
+
+            dark:border-slate-700
+            dark:bg-slate-900
+            dark:shadow-black/40
+
+            transition-colors
+            duration-300
+          "
+        >
+
+          <h1
+            className="
+              text-2xl
+              font-bold
+              text-slate-900
+
+              dark:text-white
+            "
           >
-            Log in
-          </Button>
-        </form>
-        <p className="mt-6 text-center text-sm text-slate-500">
-          Don&apos;t have an account?{" "}
-          <Link
-            href="/auth/register"
-            className="font-medium text-emerald-600 hover:text-emerald-700"
+            Welcome back
+          </h1>
+
+
+          <p
+            className="
+              mt-1
+              text-sm
+              text-slate-500
+
+              dark:text-slate-400
+            "
           >
-            Sign up
-          </Link>
-        </p>
+            Log in to your GearUp account.
+          </p>
+
+
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            className="mt-8 space-y-4"
+          >
+
+            <Input
+              type="email"
+              label="Email"
+              placeholder="you@example.com"
+              error={errors.email?.message}
+              {...register("email")}
+            />
+
+
+            <Input
+              type="password"
+              label="Password"
+              placeholder="Your password"
+              error={errors.password?.message}
+              {...register("password")}
+            />
+
+
+            <Button
+              type="submit"
+              className="w-full"
+              isLoading={loginMutation.isPending}
+            >
+              Log in
+            </Button>
+
+
+          </form>
+
+
+          <p
+            className="
+              mt-6
+              text-center
+              text-sm
+              text-slate-500
+
+              dark:text-slate-400
+            "
+          >
+            Don&apos;t have an account?{" "}
+
+            <Link
+              href="/auth/register"
+              className="
+                font-medium
+                text-emerald-600
+                hover:text-emerald-700
+
+                dark:text-emerald-400
+                dark:hover:text-emerald-300
+              "
+            >
+              Sign up
+            </Link>
+
+          </p>
+
         </div>
+
       </div>
     </div>
   );
 }
+
 
 export default function LoginPage() {
   return (

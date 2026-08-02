@@ -67,7 +67,7 @@ export function Navbar() {
             <>
               <Link
                 href="/auth/login"
-                className="text-sm font-medium text-slate-600 hover:text-slate-900"
+                className="text-sm font-medium text-slate-600 hover:text-slate-900 dark:text-white  dark:hover:text-emerald-400"
               >
                 Login
               </Link>

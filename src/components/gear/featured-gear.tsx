@@ -33,31 +33,44 @@ export function FeaturedGear() {
 
   return (
     <>
-      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        viewport={{ once: true }}
+        className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4"
+      >
         {data.gear.map((gear) => (
           <GearCard key={gear.id} gear={gear} />
         ))}
-      </div>
+      </motion.div>
 
-      <div className="mt-8 flex justify-center">
+      <div className="mt-14 flex justify-center">
         <motion.div
-          animate={{ y: [0, -3, 0] }}
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          animate={{ y: [0, -4, 0] }}
           transition={{
-            duration: 2,
+            duration: 2.5,
             repeat: Infinity,
             ease: "easeInOut",
           }}
-          whileHover={{
-            scale: 1.08,
-            boxShadow: "0px 10px 25px rgba(249,115,22,0.25)",
-          }}
-          whileTap={{ scale: 0.95 }}
         >
           <Link
             href="/gear"
-            className="inline-block rounded-lg border-2 border-orange-300 bg-orange-50 px-6 py-2 font-bold text-orange-600 transition-colors duration-300 hover:bg-orange-500 hover:text-white"
+            className="group inline-flex items-center gap-2 rounded-full bg-emerald-600 px-8 py-3 font-semibold text-white shadow-lg transition-all duration-300 hover:bg-emerald-700 hover:shadow-emerald-500/30 dark:bg-emerald-500 dark:hover:bg-emerald-600"
           >
-            See More →
+            Explore All Gear
+            <motion.span
+              className="inline-block"
+              animate={{ x: [0, 4, 0] }}
+              transition={{
+                repeat: Infinity,
+                duration: 1.5,
+              }}
+            >
+              →
+            </motion.span>
           </Link>
         </motion.div>
       </div>
