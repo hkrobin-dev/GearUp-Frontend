@@ -9,17 +9,18 @@ import {
 
 export function Footer() {
   return (
-    <footer className="border-t bg-slate-950 text-slate-300">
+    <footer className="border-t border-slate-200 bg-white text-slate-700 transition-colors dark:border-slate-800 dark:bg-slate-950 dark:text-slate-300">
+      {" "}
       <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
         <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-4">
           {/* Brand */}
           <div>
             <div className="mb-4 flex items-center gap-2">
               <Mountain className="h-7 w-7 text-emerald-500" />
-              <h2 className="text-2xl font-bold text-white">GearUp</h2>
+              <h2 className="text-2xl font-bold text-slate-900 dark:text-white">GearUp</h2>
             </div>
 
-            <p className="text-sm leading-7 text-slate-400">
+            <p className="text-sm leading-7 text-slate-500 dark:text-slate-400">
               GearUp helps outdoor enthusiasts rent premium sports and adventure
               equipment with ease. Enjoy quality gear at affordable prices for
               every journey.
@@ -139,9 +140,7 @@ export function Footer() {
         </div>
 
         <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-slate-800 pt-6 text-sm text-slate-400 md:flex-row">
-          <p>
-            © {new Date().getFullYear()} GearUp. All rights reserved.
-          </p>
+          <p>© {new Date().getFullYear()} GearUp. All rights reserved.</p>
 
           <div className="flex gap-6">
             <Link href="#" className="transition hover:text-emerald-400">
