@@ -63,7 +63,6 @@ export function GearFilters({
         duration-300
       "
     >
-
       {/* Search */}
       <div>
         <h3
@@ -91,10 +90,8 @@ export function GearFilters({
         />
       </div>
 
-
       {/* Category */}
       <div>
-
         <h3
           className="
             mb-3
@@ -108,7 +105,6 @@ export function GearFilters({
           Category
         </h3>
 
-
         <Select
           value={local.category}
           onChange={(e) =>
@@ -118,30 +114,18 @@ export function GearFilters({
             })
           }
         >
-
-          <option value="">
-            All Categories
-          </option>
-
+          <option value="">All Categories</option>
 
           {categories?.map((category) => (
-            <option
-              key={category.id}
-              value={category.id}
-            >
+            <option key={category.id} value={category.id}>
               {category.name}
             </option>
           ))}
-
-
         </Select>
-
       </div>
-
 
       {/* Price */}
       <div>
-
         <h3
           className="
             mb-3
@@ -155,9 +139,7 @@ export function GearFilters({
           Price per day
         </h3>
 
-
         <div className="flex gap-2">
-
           <Input
             type="number"
             min={0}
@@ -171,7 +153,6 @@ export function GearFilters({
             }
           />
 
-
           <Input
             type="number"
             min={0}
@@ -184,11 +165,8 @@ export function GearFilters({
               })
             }
           />
-
         </div>
-
       </div>
-
 
       {/* Reset */}
       <Button
@@ -204,8 +182,6 @@ export function GearFilters({
       >
         Reset Filters
       </Button>
-
-
     </div>
   );
 }

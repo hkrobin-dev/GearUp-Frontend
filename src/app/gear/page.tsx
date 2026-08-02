@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useGearList } from "@/lib/api/gear";
 import { GearCard } from "@/components/gear/gear-card";
 import { GearFilters, GearFilterValues } from "@/components/gear/gear-filters";
@@ -30,11 +30,17 @@ export default function GearBrowsePage() {
   });
 
 
-  const handleFilterChange = (values: GearFilterValues) => {
+const handleFilterChange = useCallback((values: GearFilterValues) => {
+  if (
+    values.search !== filters.search ||
+    values.category !== filters.category ||
+    values.minPrice !== filters.minPrice ||
+    values.maxPrice !== filters.maxPrice
+  ) {
     setFilters(values);
     setPage(1);
-  };
-
+  }
+}, [filters]);
 
   return (
     <div
