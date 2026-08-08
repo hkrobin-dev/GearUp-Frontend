@@ -7,6 +7,7 @@ import HowItWorks from "@/components/LandingPage/HowItWorks";
 import Hero from "@/components/LandingPage/Hero/Hero";
 import CTASection from "@/components/LandingPage/CTA/CTASection";
 import Testimonials from "@/components/LandingPage/Testimonials";
+import { GearCategories } from "@/components/gear/gear-categories";
 
 export default function HomePage() {
   return (
@@ -53,21 +54,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Featured gear */}
-      <div className="mb-12 text-center mt-12 sm:mt-16 lg:mt-20">
-        <span className="rounded-full bg-emerald-100 px-4 py-1 text-sm font-semibold text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400">
-          Explore
-        </span>
-
-        <h2 className="mt-4 text-4xl font-bold text-slate-900 dark:text-white">
-          Featured Gear
-        </h2>
-
-        <p className="mx-auto mt-3 max-w-2xl text-slate-500 dark:text-slate-400">
-          Browse our handpicked collection of premium sports and outdoor gear,
-          available from trusted local providers.
-        </p>
-      </div>
+      
       <section className="mx-auto max-w-7xl px-4 py-16 transition-colors duration-300 sm:px-6 lg:px-8">
         <div className="mb-8 flex items-center justify-between">
           <h2 className="text-3xl font-bold text-slate-900 dark:text-white">
@@ -81,6 +68,7 @@ export default function HomePage() {
           </Link>
         </div>
         <FeaturedGear />
+        <GearCategories/>
         <WhyChooseUs />
         <HowItWorks />
         <Testimonials />

@@ -51,84 +51,125 @@ const features = [
 ];
 
 export default function WhyChooseUs() {
-  return (
-    <section className="py-24">
-      <div className="mx-auto max-w-7xl px-6">
+ 
+return (
+  <section className="py-20">
+    <div className="container mx-auto px-4">
+      {/* Heading */}
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6 }}
+        className="mx-auto mb-14 max-w-3xl text-center"
+      >
+        <p className="mb-3 font-semibold text-primary">WHY CHOOSE US</p>
+
+        <h2 className="text-4xl font-bold md:text-5xl">
+          Why Choose <span className="text-primary">GearUp?</span>
+        </h2>
+
+        <p className="mt-5 text-muted-foreground">
+          Rent premium sports and outdoor equipment with confidence. We make
+          every adventure easier, safer, and more affordable.
+        </p>
+      </motion.div>
+
+      {/* Image + Features */}
+      <div className="grid items-center gap-12 lg:grid-cols-2">
+        
+        {/* Left Image */}
         <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0, x: -40 }}
+          whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="mx-auto mb-16 max-w-3xl text-center"
+          className="relative overflow-hidden rounded-3xl"
         >
-          <span className="rounded-full border border-primary/20 bg-primary/10 px-4 py-1 text-sm font-medium text-primary">
-            Why Choose Us
-          </span>
+          <img
+            src="/why.jpg"
+            alt="Outdoor adventure"
+            className="h-[650px] w-full object-cover"
+          />
 
-          <h2 className="mt-5 text-4xl font-bold md:text-5xl">
-            Why Choose <span className="text-primary">GearUp?</span>
-          </h2>
+          {/* Image Overlay */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
 
-          <p className="mt-5 text-muted-foreground">
-            Rent premium sports and outdoor equipment with confidence. We make
-            every adventure easier, safer, and more affordable.
-          </p>
+          <div className="absolute bottom-8 left-8 right-8 text-white">
+            <p className="text-sm font-medium uppercase tracking-widest">
+              Adventure Starts Here
+            </p>
+
+            <h3 className="mt-2 text-3xl font-bold">
+              Gear Up. Explore More.
+            </h3>
+
+            <p className="mt-3 max-w-md text-sm text-white/80">
+              Everything you need for your next outdoor adventure, all in one
+              place.
+            </p>
+          </div>
         </motion.div>
 
-        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+        {/* Right Features */}
+        <div className="space-y-5">
           {features.map((feature, index) => {
             const Icon = feature.icon;
 
             return (
               <motion.div
                 key={feature.title}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
+                initial={{ opacity: 0, x: 40 }}
+                whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
                 transition={{
                   duration: 0.4,
                   delay: index * 0.08,
                 }}
-                whileHover={{
-                  y: -8,
-                }}
-                className="group rounded-3xl border border-border bg-card p-8 transition-all duration-300 hover:border-blue-300 hover:shadow-2xl"
+                whileHover={{ x: 6 }}
+                className="group flex items-start gap-5 rounded-2xl border border-border bg-card p-5 shadow-sm transition-all duration-300 hover:border-primary/40 hover:shadow-lg"
               >
-                <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-primary/10 text-primary transition-all duration-300 group-hover:scale-110 group-hover:bg-primary group-hover:text-primary-foreground">
-                  <Icon className="h-7 w-7 text-green-400" />
+                {/* Icon */}
+                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary transition-all duration-300 group-hover:bg-primary">
+                  <Icon className="h-6 w-6 text-green-400 transition-colors group-hover:text-white" />
                 </div>
 
-                <h3 className="mb-3 text-xl font-semibold">{feature.title}</h3>
+                {/* Text */}
+                <div>
+                  <h3 className="text-lg font-semibold">
+                    {feature.title}
+                  </h3>
 
-                <p className="leading-7 text-muted-foreground">
-                  {feature.description}
-                </p>
+                  <p className="mt-1 text-sm leading-6 text-muted-foreground">
+                    {feature.description}
+                  </p>
+                </div>
               </motion.div>
             );
           })}
         </div>
-
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.3 }}
-          className="mt-20 rounded-3xl bg-primary px-8 py-12 text-center text-primary-foreground"
-        >
-          <h3 className="text-3xl font-bold">Ready for Your Next Adventure?</h3>
-
-          <p className="mx-auto mt-4 max-w-2xl opacity-90">
-            Browse high-quality sports and outdoor gear, book instantly, and
-            enjoy your adventure without the cost of ownership.
-          </p>
-
-          <button  className="mt-14 rounded-xl bg-background px-8 py-3 font-semibold text-foreground transition-all duration-300 border-orange-500 border-2 hover:scale-105 hover:bg-background/90 focus:outline-none focus:ring-4 focus:ring-primary/30 focus:ring-offset-2 focus:ring-offset-primary">
-            <Link href="/gear">
-            Browse Gear
-            </Link>
-          </button>
-        </motion.div>
       </div>
-    </section>
-  );
+
+      {/* CTA */}
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ delay: 0.2 }}
+        className=" rounded-3xl bg-primary px-8 py-12 text-center text-primary-foreground"
+      >
+        
+        <p className="mx-auto mt-4 max-w-2xl opacity-90">
+          Browse high-quality sports and outdoor gear, book instantly, and
+          enjoy your adventure without the cost of ownership.
+        </p>
+
+        <button className="mt-8 rounded-xl border-2 border-orange-500 bg-background px-8 py-3 font-semibold text-foreground transition-all duration-300 hover:scale-105 hover:bg-background/90">
+          <Link href="/gear">Browse Gear</Link>
+        </button>
+      </motion.div>
+    </div>
+  </section>
+);
+
 }
