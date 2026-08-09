@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { Role } from "@/types";
+
 import {
   LayoutDashboard,
   Package,
@@ -12,28 +13,84 @@ import {
   Boxes,
   CreditCard,
   PlusCircle,
+  User,
 } from "lucide-react";
 
 const navByRole: Record<
   Role,
-  { href: string; label: string; icon: typeof LayoutDashboard }[]
+  {
+    href: string;
+    label: string;
+    icon: typeof LayoutDashboard;
+  }[]
 > = {
   CUSTOMER: [
-    { href: "/dashboard/customer", label: "Overview", icon: LayoutDashboard },
-    { href: "/dashboard/customer/orders", label: "My Orders", icon: ClipboardList },
-    { href: "/dashboard/customer/payments", label: "Payments", icon: CreditCard },
+    {
+      href: "/dashboard/customer",
+      label: "Overview",
+      icon: LayoutDashboard,
+    },
+    {
+      href: "/dashboard/customer/orders",
+      label: "My Orders",
+      icon: ClipboardList,
+    },
+    {
+      href: "/dashboard/customer/payments",
+      label: "Payments",
+      icon: CreditCard,
+    },
+    {
+      href: "/dashboard/customer/profile",
+      label: "Profile",
+      icon: User,
+    },
   ],
+
   PROVIDER: [
-    { href: "/dashboard/provider", label: "Overview", icon: LayoutDashboard },
-    { href: "/dashboard/provider/gear", label: "My Gear", icon: Package },
-    { href: "/dashboard/provider/gear/new", label: "Add Gear", icon: PlusCircle },
-    { href: "/dashboard/provider/orders", label: "Orders", icon: ClipboardList },
+    {
+      href: "/dashboard/provider",
+      label: "Overview",
+      icon: LayoutDashboard,
+    },
+    {
+      href: "/dashboard/provider/gear",
+      label: "My Gear",
+      icon: Package,
+    },
+    {
+      href: "/dashboard/provider/gear/new",
+      label: "Add Gear",
+      icon: PlusCircle,
+    },
+    {
+      href: "/dashboard/provider/orders",
+      label: "Orders",
+      icon: ClipboardList,
+    },
   ],
+
   ADMIN: [
-    { href: "/dashboard/admin", label: "Overview", icon: LayoutDashboard },
-    { href: "/dashboard/admin/users", label: "Users", icon: Users },
-    { href: "/dashboard/admin/gear", label: "All Gear", icon: Boxes },
-    { href: "/dashboard/admin/rentals", label: "All Rentals", icon: ClipboardList },
+    {
+      href: "/dashboard/admin",
+      label: "Overview",
+      icon: LayoutDashboard,
+    },
+    {
+      href: "/dashboard/admin/users",
+      label: "Users",
+      icon: Users,
+    },
+    {
+      href: "/dashboard/admin/gear",
+      label: "All Gear",
+      icon: Boxes,
+    },
+    {
+      href: "/dashboard/admin/rentals",
+      label: "All Rentals",
+      icon: ClipboardList,
+    },
   ],
 };
 
@@ -59,9 +116,7 @@ export function DashboardSidebar({ role }: { role: Role }) {
         md:border-r
       "
     >
-
       <nav className="flex gap-1 overflow-x-auto p-3 md:flex-col md:overflow-visible">
-
         {items.map((item) => {
           const active = pathname === item.href;
           const Icon = item.icon;
@@ -100,20 +155,15 @@ export function DashboardSidebar({ role }: { role: Role }) {
                     dark:text-slate-300
                     dark:hover:bg-slate-800
                     dark:hover:text-white
-                  `
+                  `,
               )}
             >
-
               <Icon className="h-4 w-4" />
-
               {item.label}
-
             </Link>
           );
         })}
-
       </nav>
-
     </aside>
   );
 }
