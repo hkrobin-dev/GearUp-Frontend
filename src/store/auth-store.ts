@@ -7,6 +7,7 @@ interface AuthState {
   token: string | null;
   isHydrated: boolean;
   setAuth: (user: User, token: string) => void;
+  setToken: (token: string) => void; 
   logout: () => void;
   hydrate: () => void;
 }
@@ -21,6 +22,11 @@ export const useAuthStore = create<AuthState>((set) => ({
     Cookies.set("gearup_role", user.role, { expires: 7, sameSite: "lax" });
     localStorage.setItem("gearup_user", JSON.stringify(user));
     set({ user, token });
+  },
+
+  setToken: (token) => {
+    Cookies.set("gearup_token", token, { expires: 7, sameSite: "lax" });
+    set({ token });
   },
 
   logout: () => {
