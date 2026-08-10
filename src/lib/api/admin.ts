@@ -1,12 +1,29 @@
 import { api } from "@/lib/api-client";
-import { ApiSuccess, Category, GearItem, RentalOrder, User } from "@/types";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import {
+  ApiSuccess,
+  Category,
+  GearItem,
+  RentalOrder,
+  User,
+} from "@/types";
+import {
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from "@tanstack/react-query";
+
+// ==================================================
+// Admin Users
+// ==================================================
 
 export function useAdminUsers() {
   return useQuery({
     queryKey: ["admin-users"],
     queryFn: async () => {
-      const res = await api.get<ApiSuccess<User[]>>("/admin/users");
+      const res = await api.get<ApiSuccess<User[]>>(
+        "/admin/users"
+      );
+
       return res.data.data;
     },
   });
@@ -14,6 +31,7 @@ export function useAdminUsers() {
 
 export function useUpdateUserStatus() {
   const qc = useQueryClient();
+
   return useMutation({
     mutationFn: async ({
       id,
@@ -22,45 +40,169 @@ export function useUpdateUserStatus() {
       id: string;
       status: "ACTIVE" | "SUSPENDED";
     }) => {
-      const res = await api.patch<ApiSuccess<User>>(`/admin/users/${id}`, {
-        status,
-      });
+      const res = await api.patch<ApiSuccess<User>>(
+        `/admin/users/${id}`,
+        { status }
+      );
+
       return res.data.data;
     },
-    onSuccess: () => qc.invalidateQueries({ queryKey: ["admin-users"] }),
+
+    onSuccess: () => {
+      qc.invalidateQueries({
+        queryKey: ["admin-users"],
+      });
+    },
   });
 }
+// ==================================================
+// Admin Gear
+// ==================================================
 
 export function useAdminGear() {
   return useQuery({
     queryKey: ["admin-gear"],
+
     queryFn: async () => {
-      const res = await api.get<ApiSuccess<GearItem[]>>("/admin/gear");
+      const res = await api.get<ApiSuccess<GearItem[]>>(
+        "/admin/gear"
+      );
+
       return res.data.data;
     },
   });
 }
+
+// ==================================================
+// Admin Rentals
+// ==================================================
 
 export function useAdminRentals() {
   return useQuery({
     queryKey: ["admin-rentals"],
+
     queryFn: async () => {
-      const res = await api.get<ApiSuccess<RentalOrder[]>>("/admin/rentals");
+      const res = await api.get<ApiSuccess<RentalOrder[]>>(
+        "/admin/rentals"
+      );
+
       return res.data.data;
     },
   });
 }
 
+// ==================================================
+// Admin Categories
+// ==================================================
+
+export function useAdminCategories() {
+  return useQuery({
+    queryKey: ["admin-categories"],
+
+    queryFn: async () => {
+      const res = await api.get<ApiSuccess<Category[]>>(
+        "/categories"
+      );
+
+      return res.data.data;
+    },
+  });
+}
+
+// ==================================================
+// Create Category
+// ==================================================
+
 export function useCreateCategory() {
   const qc = useQueryClient();
+
   return useMutation({
-    mutationFn: async (payload: { name: string; description?: string }) => {
+    mutationFn: async (payload: {
+      name: string;
+      description?: string;
+    }) => {
       const res = await api.post<ApiSuccess<Category>>(
         "/admin/categories",
         payload
       );
+
       return res.data.data;
     },
-    onSuccess: () => qc.invalidateQueries({ queryKey: ["categories"] }),
+
+    onSuccess: () => {
+      qc.invalidateQueries({
+        queryKey: ["admin-categories"],
+      });
+
+      qc.invalidateQueries({
+        queryKey: ["categories"],
+      });
+    },
+  });
+}
+
+// ==================================================
+// Update Category
+// ==================================================
+
+export function useUpdateCategory() {
+  const qc = useQueryClient();
+
+  return useMutation({
+    mutationFn: async ({
+      id,
+      payload,
+    }: {
+      id: string;
+      payload: {
+        name?: string;
+        description?: string;
+      };
+    }) => {
+      const res = await api.patch<ApiSuccess<Category>>(
+        `/admin/categories/${id}`,
+        payload
+      );
+
+      return res.data.data;
+    },
+
+    onSuccess: () => {
+      qc.invalidateQueries({
+        queryKey: ["admin-categories"],
+      });
+
+      qc.invalidateQueries({
+        queryKey: ["categories"],
+      });
+    },
+  });
+}
+
+// ==================================================
+// Delete Category
+// ==================================================
+
+export function useDeleteCategory() {
+  const qc = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (id: string) => {
+      const res = await api.delete<ApiSuccess<null>>(
+        `/admin/categories/${id}`
+      );
+
+      return res.data.data;
+    },
+
+    onSuccess: () => {
+      qc.invalidateQueries({
+        queryKey: ["admin-categories"],
+      });
+
+      qc.invalidateQueries({
+        queryKey: ["categories"],
+      });
+    },
   });
 }

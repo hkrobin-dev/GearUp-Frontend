@@ -14,6 +14,8 @@ import {
   CreditCard,
   PlusCircle,
   User,
+  BarChart3,
+  Tags,
 } from "lucide-react";
 
 const navByRole: Record<
@@ -90,6 +92,16 @@ const navByRole: Record<
       href: "/dashboard/admin/rentals",
       label: "All Rentals",
       icon: ClipboardList,
+    },
+    {
+      href: "/dashboard/admin/analytics",
+      label: "Analytics",
+      icon: BarChart3,
+    },
+    {
+      href: "/dashboard/admin/categories",
+      label: "Categories",
+      icon: Tags,
     },
   ],
 };

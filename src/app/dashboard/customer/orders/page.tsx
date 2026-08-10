@@ -1,72 +1,81 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { Search, SlidersHorizontal, ChevronLeft, ChevronRight } from "lucide-react";
 import { useMyRentals } from "@/lib/api/rentals";
 import { OrderCard } from "@/components/customer/order-card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { EmptyState } from "@/components/ui/empty-state";
-import { PackageSearch, Search, ChevronLeft, ChevronRight } from "lucide-react";
+import { PackageSearch } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 
 const ORDERS_PER_PAGE = 5;
 
-const statuses = [
-  "ALL",
-  "PLACED",
-  "CONFIRMED",
-  "PAID",
-  "PICKED_UP",
-  "RETURNED",
-  "CANCELLED",
-] as const;
-
 export default function CustomerOrdersPage() {
   const { data: rentals, isLoading } = useMyRentals();
 
   const [search, setSearch] = useState("");
-  const [status, setStatus] =
-    useState<(typeof statuses)[number]>("ALL");
+  const [status, setStatus] = useState("ALL");
+  const [sort, setSort] = useState("NEWEST");
   const [currentPage, setCurrentPage] = useState(1);
 
-  const filteredRentals = useMemo(() => {
+  const filteredOrders = useMemo(() => {
     if (!rentals) return [];
 
-    const query = search.trim().toLowerCase();
+    let result = [...rentals];
 
-    return rentals.filter((order) => {
-      const matchesStatus =
-        status === "ALL" || order.status === status;
+    // Search by gear name
+    if (search.trim()) {
+      const query = search.toLowerCase();
 
-      const matchesSearch =
-        !query ||
+      result = result.filter((order) =>
         order.items.some((item) =>
           item.gearItem.name.toLowerCase().includes(query)
-        );
+        )
+      );
+    }
 
-      return matchesStatus && matchesSearch;
+    // Status filter
+    if (status !== "ALL") {
+      result = result.filter((order) => order.status === status);
+    }
+
+    // Sorting
+    result.sort((a, b) => {
+      const dateA = new Date(a.startDate).getTime();
+      const dateB = new Date(b.startDate).getTime();
+
+      return sort === "NEWEST" ? dateB - dateA : dateA - dateB;
     });
-  }, [rentals, search, status]);
+
+    return result;
+  }, [rentals, search, status, sort]);
 
   const totalPages = Math.max(
     1,
-    Math.ceil(filteredRentals.length / ORDERS_PER_PAGE)
+    Math.ceil(filteredOrders.length / ORDERS_PER_PAGE)
   );
 
-  const paginatedRentals = filteredRentals.slice(
-    (currentPage - 1) * ORDERS_PER_PAGE,
-    currentPage * ORDERS_PER_PAGE
+  const safePage = Math.min(currentPage, totalPages);
+
+  const paginatedOrders = filteredOrders.slice(
+    (safePage - 1) * ORDERS_PER_PAGE,
+    safePage * ORDERS_PER_PAGE
   );
 
-  const handleSearch = (value: string) => {
+  const handleSearchChange = (value: string) => {
     setSearch(value);
     setCurrentPage(1);
   };
 
-  const handleStatusChange = (
-    value: (typeof statuses)[number]
-  ) => {
+  const handleStatusChange = (value: string) => {
     setStatus(value);
+    setCurrentPage(1);
+  };
+
+  const handleSortChange = (value: string) => {
+    setSort(value);
     setCurrentPage(1);
   };
 
@@ -74,134 +83,103 @@ export default function CustomerOrdersPage() {
     <div>
       {/* Header */}
       <div>
-        <h1
-          className="
-            text-2xl
-            font-bold
-            text-slate-900
-            dark:text-white
-          "
-        >
+        <h1 className="text-2xl font-bold text-slate-900 dark:text-white">
           My Orders
         </h1>
 
-        <p
-          className="
-            mt-1
-            text-slate-500
-            dark:text-slate-400
-          "
-        >
+        <p className="mt-1 text-slate-500 dark:text-slate-400">
           Track and manage your rental orders.
         </p>
       </div>
 
       {/* Filters */}
       {!isLoading && rentals && rentals.length > 0 && (
-        <div
-          className="
-            mt-6
-            rounded-2xl
-            border
-            border-slate-200
-            bg-white
-            p-4
-            shadow-sm
-            dark:border-slate-700
-            dark:bg-slate-900
-          "
-        >
-          <div className="flex flex-col gap-4 lg:flex-row">
-            {/* Search */}
-            <div className="relative flex-1">
-              <Search
-                className="
-                  absolute
-                  left-3
-                  top-1/2
-                  h-4
-                  w-4
-                  -translate-y-1/2
-                  text-slate-400
-                "
-              />
+        <div className="mt-6 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm dark:border-slate-700 dark:bg-slate-900">
+          <div className="flex items-center gap-2 mb-4">
+            <SlidersHorizontal className="h-4 w-4 text-emerald-600" />
 
-              <input
-                type="text"
-                value={search}
-                onChange={(e) => handleSearch(e.target.value)}
-                placeholder="Search by gear name..."
-                className="
-                  h-10
-                  w-full
-                  rounded-lg
-                  border
-                  border-slate-200
-                  bg-white
-                  pl-10
-                  pr-4
-                  text-sm
-                  outline-none
-                  transition
-                  focus:border-emerald-500
-                  focus:ring-2
-                  focus:ring-emerald-500/20
-                  dark:border-slate-700
-                  dark:bg-slate-800
-                  dark:text-white
-                  dark:placeholder:text-slate-500
-                "
-              />
+            <h2 className="text-sm font-semibold text-slate-900 dark:text-white">
+              Filter & Sort Orders
+            </h2>
+          </div>
+
+          <div className="grid gap-4 md:grid-cols-3">
+            {/* Search */}
+            <div>
+              <label
+                htmlFor="order-search"
+                className="mb-2 block text-sm font-medium text-slate-700 dark:text-slate-200"
+              >
+                Search Gear
+              </label>
+
+              <div className="relative">
+                <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+
+                <input
+                  id="order-search"
+                  type="search"
+                  value={search}
+                  onChange={(e) => handleSearchChange(e.target.value)}
+                  placeholder="Search by gear name..."
+                  className="w-full rounded-lg border border-slate-200 bg-white py-2.5 pl-9 pr-3 text-sm text-slate-900 outline-none transition focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 dark:border-slate-600 dark:bg-slate-800 dark:text-white"
+                />
+              </div>
             </div>
 
             {/* Status */}
-            <select
-              value={status}
-              onChange={(e) =>
-                handleStatusChange(
-                  e.target.value as (typeof statuses)[number]
-                )
-              }
-              className="
-                h-10
-                rounded-lg
-                border
-                border-slate-200
-                bg-white
-                px-3
-                text-sm
-                text-slate-700
-                outline-none
-                focus:border-emerald-500
-                focus:ring-2
-                focus:ring-emerald-500/20
-                dark:border-slate-700
-                dark:bg-slate-800
-                dark:text-white
-              "
-            >
-              {statuses.map((item) => (
-                <option key={item} value={item}>
-                  {item === "ALL"
-                    ? "All Statuses"
-                    : item.replace("_", " ")}
-                </option>
-              ))}
-            </select>
+            <div>
+              <label
+                htmlFor="order-status"
+                className="mb-2 block text-sm font-medium text-slate-700 dark:text-slate-200"
+              >
+                Status
+              </label>
+
+              <select
+                id="order-status"
+                value={status}
+                onChange={(e) => handleStatusChange(e.target.value)}
+                className="w-full rounded-lg border border-slate-200 bg-white px-3 py-2.5 text-sm text-slate-900 outline-none transition focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 dark:border-slate-600 dark:bg-slate-800 dark:text-white"
+              >
+                <option value="ALL">All Orders</option>
+                <option value="PLACED">Placed</option>
+                <option value="CONFIRMED">Confirmed</option>
+                <option value="ACTIVE">Active</option>
+                <option value="RETURNED">Returned</option>
+                <option value="CANCELLED">Cancelled</option>
+              </select>
+            </div>
+
+            {/* Sort */}
+            <div>
+              <label
+                htmlFor="order-sort"
+                className="mb-2 block text-sm font-medium text-slate-700 dark:text-slate-200"
+              >
+                Sort By
+              </label>
+
+              <select
+                id="order-sort"
+                value={sort}
+                onChange={(e) => handleSortChange(e.target.value)}
+                className="w-full rounded-lg border border-slate-200 bg-white px-3 py-2.5 text-sm text-slate-900 outline-none transition focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 dark:border-slate-600 dark:bg-slate-800 dark:text-white"
+              >
+                <option value="NEWEST">Newest First</option>
+                <option value="OLDEST">Oldest First</option>
+              </select>
+            </div>
           </div>
 
           {/* Result count */}
-          <p
-            className="
-              mt-3
-              text-xs
-              text-slate-500
-              dark:text-slate-400
-            "
-          >
-            Showing {filteredRentals.length}{" "}
-            {filteredRentals.length === 1 ? "order" : "orders"}
-          </p>
+          <div className="mt-4 text-sm text-slate-500 dark:text-slate-400">
+            Showing{" "}
+            <span className="font-semibold text-slate-700 dark:text-slate-200">
+              {filteredOrders.length}
+            </span>{" "}
+            order{filteredOrders.length !== 1 ? "s" : ""}
+          </div>
         </div>
       )}
 
@@ -225,14 +203,14 @@ export default function CustomerOrdersPage() {
               </Link>
             }
           />
-        ) : filteredRentals.length === 0 ? (
+        ) : paginatedOrders.length === 0 ? (
           <EmptyState
             icon={PackageSearch}
             title="No matching orders"
-            description="Try changing your search or status filter."
+            description="Try changing your search or filter."
           />
         ) : (
-          paginatedRentals.map((order) => (
+          paginatedOrders.map((order) => (
             <OrderCard
               key={order.id}
               order={order}
@@ -242,93 +220,50 @@ export default function CustomerOrdersPage() {
       </div>
 
       {/* Pagination */}
-      {!isLoading &&
-        filteredRentals.length > ORDERS_PER_PAGE && (
-          <div
-            className="
-              mt-6
-              flex
-              items-center
-              justify-between
-              rounded-2xl
-              border
-              border-slate-200
-              bg-white
-              px-4
-              py-3
-              dark:border-slate-700
-              dark:bg-slate-900
-            "
-          >
-            <p
-              className="
-                text-sm
-                text-slate-500
-                dark:text-slate-400
-              "
+      {!isLoading && filteredOrders.length > 0 && totalPages > 1 && (
+        <div className="mt-6 flex items-center justify-between rounded-xl border border-slate-200 bg-white px-4 py-3 dark:border-slate-700 dark:bg-slate-900">
+          <p className="text-sm text-slate-500 dark:text-slate-400">
+            Page{" "}
+            <span className="font-semibold text-slate-900 dark:text-white">
+              {safePage}
+            </span>{" "}
+            of{" "}
+            <span className="font-semibold text-slate-900 dark:text-white">
+              {totalPages}
+            </span>
+          </p>
+
+          <div className="flex items-center gap-2">
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              disabled={safePage === 1}
+              onClick={() =>
+                setCurrentPage((page) => Math.max(1, page - 1))
+              }
             >
-              Page {currentPage} of {totalPages}
-            </p>
+              <ChevronLeft className="mr-1 h-4 w-4" />
+              Previous
+            </Button>
 
-            <div className="flex items-center gap-2">
-              <button
-                type="button"
-                disabled={currentPage === 1}
-                onClick={() =>
-                  setCurrentPage((page) => page - 1)
-                }
-                className="
-                  inline-flex
-                  h-9
-                  w-9
-                  items-center
-                  justify-center
-                  rounded-lg
-                  border
-                  border-slate-200
-                  text-slate-600
-                  transition
-                  hover:bg-slate-100
-                  disabled:cursor-not-allowed
-                  disabled:opacity-40
-                  dark:border-slate-700
-                  dark:text-slate-300
-                  dark:hover:bg-slate-800
-                "
-              >
-                <ChevronLeft className="h-4 w-4" />
-              </button>
-
-              <button
-                type="button"
-                disabled={currentPage === totalPages}
-                onClick={() =>
-                  setCurrentPage((page) => page + 1)
-                }
-                className="
-                  inline-flex
-                  h-9
-                  w-9
-                  items-center
-                  justify-center
-                  rounded-lg
-                  border
-                  border-slate-200
-                  text-slate-600
-                  transition
-                  hover:bg-slate-100
-                  disabled:cursor-not-allowed
-                  disabled:opacity-40
-                  dark:border-slate-700
-                  dark:text-slate-300
-                  dark:hover:bg-slate-800
-                "
-              >
-                <ChevronRight className="h-4 w-4" />
-              </button>
-            </div>
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              disabled={safePage === totalPages}
+              onClick={() =>
+                setCurrentPage((page) =>
+                  Math.min(totalPages, page + 1)
+                )
+              }
+            >
+              Next
+              <ChevronRight className="ml-1 h-4 w-4" />
+            </Button>
           </div>
-        )}
+        </div>
+      )}
     </div>
   );
 }
