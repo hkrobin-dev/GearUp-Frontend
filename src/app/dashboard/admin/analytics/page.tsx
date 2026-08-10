@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useAdminRentals, useAdminGear } from "@/lib/api/admin";
@@ -14,31 +15,55 @@ import {
 } from "lucide-react";
 
 export default function AdminAnalyticsPage() {
-  const { data: rentals, isLoading: rentalsLoading } = useAdminRentals();
-  const { data: gear, isLoading: gearLoading } = useAdminGear();
+  const {
+    data: rentalsResponse,
+    isLoading: rentalsLoading,
+  } = useAdminRentals({
+    page: 1,
+    limit: 100,
+  });
+
+  const {
+    data: gearResponse,
+    isLoading: gearLoading,
+  } = useAdminGear({
+    page: 1,
+    limit: 1,
+  });
+
+  const rentals = rentalsResponse?.data ?? [];
 
   const isLoading = rentalsLoading || gearLoading;
 
   const totalRevenue =
     rentals
-      ?.filter((r) =>
-        ["PAID", "PICKED_UP", "RETURNED"].includes(r.status)
+      .filter((r) =>
+        ["PAID", "PICKED_UP", "RETURNED"].includes(
+          r.status,
+        ),
       )
-      .reduce((sum, r) => sum + Number(r.totalAmount), 0) ?? 0;
+      .reduce(
+        (sum, r) => sum + Number(r.totalAmount),
+        0,
+      );
 
-  const paidRentals =
-    rentals?.filter((r) =>
-      ["PAID", "PICKED_UP"].includes(r.status)
-    ).length ?? 0;
+  const paidRentals = rentals.filter((r) =>
+    ["PAID", "PICKED_UP"].includes(r.status),
+  ).length;
 
-  const pendingRentals =
-    rentals?.filter((r) => r.status === "PLACED").length ?? 0;
+  const pendingRentals = rentals.filter(
+    (r) => r.status === "PLACED",
+  ).length;
 
-  const completedRentals =
-    rentals?.filter((r) => r.status === "RETURNED").length ?? 0;
+  const completedRentals = rentals.filter(
+    (r) => r.status === "RETURNED",
+  ).length;
+
+  const totalGear = gearResponse?.meta.total ?? 0;
 
   return (
     <div>
+      {/* Header */}
       <div>
         <h1 className="text-2xl font-bold text-slate-900 dark:text-white">
           Analytics
@@ -52,7 +77,10 @@ export default function AdminAnalyticsPage() {
       {isLoading ? (
         <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-5">
           {Array.from({ length: 5 }).map((_, i) => (
-            <Skeleton key={i} className="h-24 w-full" />
+            <Skeleton
+              key={i}
+              className="h-24 w-full"
+            />
           ))}
         </div>
       ) : (
@@ -84,16 +112,17 @@ export default function AdminAnalyticsPage() {
 
             <StatCard
               label="Total Gear"
-              value={gear?.length ?? 0}
+              value={totalGear}
               icon={Boxes}
             />
           </div>
 
           <div className="mt-8">
-            <RevenueChart rentals={rentals ?? []} />
+            <RevenueChart rentals={rentals} />
           </div>
         </>
       )}
     </div>
   );
 }
+

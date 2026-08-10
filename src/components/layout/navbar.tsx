@@ -30,6 +30,7 @@ export function Navbar() {
   const [open, setOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
 
+  // Role-based dashboard route
   const dashboardHref =
     user?.role === "ADMIN"
       ? "/dashboard/admin"
@@ -45,17 +46,18 @@ export function Navbar() {
   };
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-slate-200/80 bg-white/95 backdrop-blur-md dark:border-slate-800 dark:bg-slate-950/95">
+    <header className="sticky top-0 z-50 w-full border-b border-slate-200 bg-white/95 backdrop-blur dark:border-slate-800 dark:bg-slate-950/95">
       <nav className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         {/* Logo */}
         <Link
           href="/"
           className="flex items-center gap-2 text-xl font-bold text-slate-900 dark:text-white"
-          onClick={() => setOpen(false)}
+          onClick={() => {
+            setOpen(false);
+            setProfileOpen(false);
+          }}
         >
-          <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-emerald-600 text-white">
-            <Mountain className="h-5 w-5" />
-          </span>
+          <Mountain className="h-6 w-6 text-emerald-600" />
 
           <span>
             Gear<span className="text-emerald-600">Up</span>
@@ -64,7 +66,7 @@ export function Navbar() {
 
         {/* Desktop Navigation */}
         <div className="hidden items-center gap-6 md:flex">
-          {/* Common routes */}
+          {/* Home */}
           <Link
             href="/"
             className="flex items-center gap-1.5 text-sm font-medium text-slate-600 transition-colors hover:text-emerald-600 dark:text-slate-300 dark:hover:text-emerald-400"
@@ -73,6 +75,7 @@ export function Navbar() {
             Home
           </Link>
 
+          {/* Browse Gear */}
           <Link
             href="/gear"
             className="flex items-center gap-1.5 text-sm font-medium text-slate-600 transition-colors hover:text-emerald-600 dark:text-slate-300 dark:hover:text-emerald-400"
@@ -81,6 +84,7 @@ export function Navbar() {
             Browse Gear
           </Link>
 
+          {/* About */}
           <Link
             href="/about"
             className="flex items-center gap-1.5 text-sm font-medium text-slate-600 transition-colors hover:text-emerald-600 dark:text-slate-300 dark:hover:text-emerald-400"
@@ -89,6 +93,7 @@ export function Navbar() {
             About
           </Link>
 
+          {/* Contact */}
           <Link
             href="/contact"
             className="flex items-center gap-1.5 text-sm font-medium text-slate-600 transition-colors hover:text-emerald-600 dark:text-slate-300 dark:hover:text-emerald-400"
@@ -97,11 +102,13 @@ export function Navbar() {
             Contact
           </Link>
 
+          {/* Theme */}
           <ThemeToggle />
 
           {/* Logged In */}
           {isHydrated && user ? (
             <>
+              {/* Dashboard */}
               <Link
                 href={dashboardHref}
                 className="flex items-center gap-1.5 text-sm font-medium text-slate-600 transition-colors hover:text-emerald-600 dark:text-slate-300 dark:hover:text-emerald-400"
@@ -137,7 +144,7 @@ export function Navbar() {
 
                 {profileOpen && (
                   <div className="absolute right-0 top-12 w-56 overflow-hidden rounded-xl border border-slate-200 bg-white p-1.5 shadow-xl dark:border-slate-700 dark:bg-slate-900">
-                    {/* User info */}
+                    {/* User Info */}
                     <div className="border-b border-slate-200 px-3 py-2.5 dark:border-slate-700">
                       <p className="truncate text-sm font-semibold text-slate-900 dark:text-white">
                         {user.name}
@@ -152,15 +159,19 @@ export function Navbar() {
                       </span>
                     </div>
 
-                    <Link
-                      href="/profile"
-                      onClick={() => setProfileOpen(false)}
-                      className="flex items-center gap-2 rounded-lg px-3 py-2.5 text-sm text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800"
-                    >
-                      <User className="h-4 w-4" />
-                      Profile
-                    </Link>
+                    {/* Customer Profile Only */}
+                    {user.role === "CUSTOMER" && (
+                      <Link
+                        href="/dashboard/customer/profile"
+                        onClick={() => setProfileOpen(false)}
+                        className="flex items-center gap-2 rounded-lg px-3 py-2.5 text-sm text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800"
+                      >
+                        <User className="h-4 w-4" />
+                        Profile
+                      </Link>
+                    )}
 
+                    {/* Dashboard */}
                     <Link
                       href={dashboardHref}
                       onClick={() => setProfileOpen(false)}
@@ -170,6 +181,7 @@ export function Navbar() {
                       Dashboard
                     </Link>
 
+                    {/* Logout */}
                     <button
                       type="button"
                       onClick={handleLogout}
@@ -184,6 +196,7 @@ export function Navbar() {
             </>
           ) : isHydrated ? (
             <>
+              {/* Login */}
               <Link
                 href="/auth/login"
                 className="text-sm font-medium text-slate-600 transition-colors hover:text-slate-900 dark:text-slate-300 dark:hover:text-emerald-400"
@@ -191,6 +204,7 @@ export function Navbar() {
                 Login
               </Link>
 
+              {/* Register */}
               <Link href="/auth/register">
                 <Button size="sm">Get Started</Button>
               </Link>
@@ -267,6 +281,7 @@ export function Navbar() {
             Contact
           </Link>
 
+          {/* Logged In */}
           {isHydrated && user ? (
             <>
               {/* Dashboard */}
@@ -279,15 +294,17 @@ export function Navbar() {
                 Dashboard
               </Link>
 
-              {/* Profile */}
-              <Link
-                href="/profile"
-                onClick={() => setOpen(false)}
-                className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800"
-              >
-                <User className="h-4 w-4" />
-                Profile
-              </Link>
+              {/* Customer Profile Only */}
+              {user.role === "CUSTOMER" && (
+                <Link
+                  href="/dashboard/customer/profile"
+                  onClick={() => setOpen(false)}
+                  className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800"
+                >
+                  <User className="h-4 w-4" />
+                  Profile
+                </Link>
+              )}
 
               {/* Logout */}
               <button

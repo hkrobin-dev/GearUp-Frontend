@@ -9,51 +9,66 @@ import {
 
 export function Footer() {
   return (
-    <footer className="border-t border-slate-200 bg-white text-slate-700 transition-colors dark:border-slate-800 dark:bg-slate-950 dark:text-slate-300">
-      {" "}
+    <footer className="border-t border-slate-200 bg-slate-950 text-slate-300 dark:border-slate-800">
       <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
-        <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-4">
+        <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
           {/* Brand */}
           <div>
-            <div className="mb-4 flex items-center gap-2">
-              <Mountain className="h-7 w-7 text-emerald-500" />
-              <h2 className="text-2xl font-bold text-slate-900 dark:text-white">GearUp</h2>
-            </div>
+            <Link
+              href="/"
+              className="inline-flex items-center gap-2 text-xl font-bold text-white"
+            >
+              <Mountain className="h-6 w-6 text-emerald-500" />
+              GearUp
+            </Link>
 
-            <p className="text-sm leading-7 text-slate-500 dark:text-slate-400">
-              GearUp helps outdoor enthusiasts rent premium sports and adventure
-              equipment with ease. Enjoy quality gear at affordable prices for
-              every journey.
+            <p className="mt-4 text-sm leading-7 text-slate-400">
+              GearUp helps outdoor enthusiasts rent premium sports and
+              adventure equipment with ease. Enjoy quality gear at affordable
+              prices for every journey.
             </p>
 
+            {/* Social Links */}
             <div className="mt-6 flex gap-3">
-              <Link
-                href="#"
-                className="rounded-full bg-slate-800 p-3 transition hover:bg-emerald-500"
+              <a
+                href="https://www.facebook.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Facebook"
+                className="rounded-full bg-slate-800 p-3 transition hover:bg-emerald-500 hover:text-white"
               >
                 <FaFacebookF size={18} />
-              </Link>
+              </a>
 
-              <Link
-                href="#"
-                className="rounded-full bg-slate-800 p-3 transition hover:bg-emerald-500"
+              <a
+                href="https://www.instagram.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Instagram"
+                className="rounded-full bg-slate-800 p-3 transition hover:bg-emerald-500 hover:text-white"
               >
                 <FaInstagram size={18} />
-              </Link>
+              </a>
 
-              <Link
-                href="#"
-                className="rounded-full bg-slate-800 p-3 transition hover:bg-emerald-500"
+              <a
+                href="https://x.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="X"
+                className="rounded-full bg-slate-800 p-3 transition hover:bg-emerald-500 hover:text-white"
               >
                 <FaXTwitter size={18} />
-              </Link>
+              </a>
 
-              <Link
-                href="#"
-                className="rounded-full bg-slate-800 p-3 transition hover:bg-emerald-500"
+              <a
+                href="https://www.linkedin.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="LinkedIn"
+                className="rounded-full bg-slate-800 p-3 transition hover:bg-emerald-500 hover:text-white"
               >
                 <FaLinkedinIn size={18} />
-              </Link>
+              </a>
             </div>
           </div>
 
@@ -63,9 +78,12 @@ export function Footer() {
               Quick Links
             </h3>
 
-            <ul className="space-y-3">
+            <ul className="space-y-3 text-sm">
               <li>
-                <Link href="/" className="transition hover:text-emerald-400">
+                <Link
+                  href="/"
+                  className="transition hover:text-emerald-400"
+                >
                   Home
                 </Link>
               </li>
@@ -81,7 +99,25 @@ export function Footer() {
 
               <li>
                 <Link
-                  href="/login"
+                  href="/about"
+                  className="transition hover:text-emerald-400"
+                >
+                  About Us
+                </Link>
+              </li>
+
+              <li>
+                <Link
+                  href="/contact"
+                  className="transition hover:text-emerald-400"
+                >
+                  Contact
+                </Link>
+              </li>
+
+              <li>
+                <Link
+                  href="/auth/login"
                   className="transition hover:text-emerald-400"
                 >
                   Login
@@ -90,7 +126,7 @@ export function Footer() {
 
               <li>
                 <Link
-                  href="/register"
+                  href="/auth/register"
                   className="transition hover:text-emerald-400"
                 >
                   Register
@@ -105,7 +141,7 @@ export function Footer() {
               Categories
             </h3>
 
-            <ul className="space-y-3">
+            <ul className="space-y-3 text-sm text-slate-400">
               <li>🏕 Camping Gear</li>
               <li>🥾 Hiking Equipment</li>
               <li>🚴 Cycling Gear</li>
@@ -120,39 +156,55 @@ export function Footer() {
               Contact Us
             </h3>
 
-            <div className="space-y-4">
+            <div className="space-y-4 text-sm">
               <div className="flex items-center gap-3">
-                <MapPin className="h-5 w-5 text-emerald-500" />
+                <MapPin className="h-5 w-5 shrink-0 text-emerald-500" />
                 <span>Dhaka, Bangladesh</span>
               </div>
 
-              <div className="flex items-center gap-3">
-                <Phone className="h-5 w-5 text-emerald-500" />
+              <a
+                href="tel:+8801234567890"
+                className="flex items-center gap-3 transition hover:text-emerald-400"
+              >
+                <Phone className="h-5 w-5 shrink-0 text-emerald-500" />
                 <span>+880 1234-567890</span>
-              </div>
+              </a>
 
-              <div className="flex items-center gap-3">
-                <Mail className="h-5 w-5 text-emerald-500" />
+              <a
+                href="mailto:support@gearup.com"
+                className="flex items-center gap-3 transition hover:text-emerald-400"
+              >
+                <Mail className="h-5 w-5 shrink-0 text-emerald-500" />
                 <span>support@gearup.com</span>
-              </div>
+              </a>
             </div>
           </div>
         </div>
 
+        {/* Bottom */}
         <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-slate-800 pt-6 text-sm text-slate-400 md:flex-row">
           <p>© {new Date().getFullYear()} GearUp. All rights reserved.</p>
 
-          <div className="flex gap-6">
-            <Link href="#" className="transition hover:text-emerald-400">
-              Privacy Policy
+          <div className="flex flex-wrap justify-center gap-x-6 gap-y-2">
+            <Link
+              href="/about"
+              className="transition hover:text-emerald-400"
+            >
+              About
             </Link>
 
-            <Link href="#" className="transition hover:text-emerald-400">
-              Terms of Service
+            <Link
+              href="/contact"
+              className="transition hover:text-emerald-400"
+            >
+              Contact
             </Link>
 
-            <Link href="#" className="transition hover:text-emerald-400">
-              Support
+            <Link
+              href="/gear"
+              className="transition hover:text-emerald-400"
+            >
+              Browse Gear
             </Link>
           </div>
         </div>

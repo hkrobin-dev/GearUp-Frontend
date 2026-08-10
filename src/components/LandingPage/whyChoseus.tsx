@@ -30,24 +30,14 @@ const features = [
     description:
       "Pay confidently using trusted payment gateways with a fast and secure checkout experience.",
   },
-  {
-    icon: Zap,
-    title: "Fast & Easy Booking",
-    description:
-      "Choose your gear, select rental dates, and complete your booking in just a few clicks.",
-  },
+ 
   {
     icon: Users,
     title: "Trusted Providers",
     description:
       "Our verified providers offer reliable service and professionally maintained equipment.",
   },
-  {
-    icon: Backpack,
-    title: "Wide Gear Selection",
-    description:
-      "Explore camping, cycling, hiking, fitness, and outdoor equipment for every adventure.",
-  },
+ 
 ];
 
 export default function WhyChooseUs() {

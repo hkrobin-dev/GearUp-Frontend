@@ -1,71 +1,109 @@
+
 "use client";
 
-import { useAdminUsers, useAdminGear, useAdminRentals } from "@/lib/api/admin";
+import {
+  Users,
+  Boxes,
+  ClipboardList,
+  Tags,
+} from "lucide-react";
+
 import { StatCard } from "@/components/ui/stat-card";
-import { Users, Boxes, ClipboardList, DollarSign } from "lucide-react";
-import { Skeleton } from "@/components/ui/skeleton";
-import { formatCurrency } from "@/lib/utils";
-import { RevenueChart } from "@/components/ui/revenue-chart";
+import {
+  useAdminUsers,
+  useAdminGear,
+  useAdminRentals,
+  useAdminCategories,
+} from "@/lib/api/admin";
 
-export default function AdminOverviewPage() {
-  const { data: users, isLoading: usersLoading } = useAdminUsers();
-  const { data: gear, isLoading: gearLoading } = useAdminGear();
-  const { data: rentals, isLoading: rentalsLoading } = useAdminRentals();
+export default function AdminDashboardPage() {
+  const {
+    data: users,
+    isLoading: usersLoading,
+  } = useAdminUsers();
 
-  const isLoading = usersLoading || gearLoading || rentalsLoading;
+  const {
+    data: gear,
+    isLoading: gearLoading,
+  } = useAdminGear({
+    page: 1,
+    limit: 1,
+  });
 
-  const totalRevenue =
-    rentals
-      ?.filter((r) => ["PAID", "PICKED_UP", "RETURNED"].includes(r.status))
-      .reduce((sum, r) => sum + Number(r.totalAmount), 0) ?? 0;
+  const {
+    data: rentals,
+    isLoading: rentalsLoading,
+  } = useAdminRentals({
+    page: 1,
+    limit: 1,
+  });
+
+  const {
+    data: categories,
+    isLoading: categoriesLoading,
+  } = useAdminCategories();
+
+  const isLoading =
+    usersLoading ||
+    gearLoading ||
+    rentalsLoading ||
+    categoriesLoading;
 
   return (
     <div>
-      <h1 className="text-2xl font-bold text-slate-900 dark:text-white">
-        Platform Overview
-      </h1>
+      {/* Header */}
+      <div>
+        <h1 className="text-2xl font-bold text-slate-900 dark:text-white">
+          Admin Dashboard
+        </h1>
 
-      <p className="mt-1 text-slate-500 dark:text-slate-400">
-        Global stats across GearUp.
-      </p>
+        <p className="mt-1 text-slate-500 dark:text-slate-400">
+          Overview of your GearUp platform.
+        </p>
+      </div>
 
-      {isLoading ? (
-        <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {Array.from({ length: 4 }).map((_, i) => (
-            <Skeleton key={i} className="h-24 w-full" />
-          ))}
-        </div>
-      ) : (
-        <>
-          <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            <StatCard
-              label="Total Users"
-              value={users?.length ?? 0}
-              icon={Users}
-            />
+      {/* Stats */}
+      <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <StatCard
+          label="Total Users"
+          value={
+            isLoading
+              ? "..."
+              : users?.length ?? 0
+          }
+          icon={Users}
+        />
 
-            <StatCard
-              label="Gear Listings"
-              value={gear?.length ?? 0}
-              icon={Boxes}
-            />
+        <StatCard
+          label="Gear Listings"
+          value={
+            isLoading
+              ? "..."
+              : gear?.meta.total ?? 0
+          }
+          icon={Boxes}
+        />
 
-            <StatCard
-              label="Total Rentals"
-              value={rentals?.length ?? 0}
-              icon={ClipboardList}
-            />
+        <StatCard
+          label="Rental Orders"
+          value={
+            isLoading
+              ? "..."
+              : rentals?.meta.total ?? 0
+          }
+          icon={ClipboardList}
+        />
 
-            <StatCard
-              label="Total Revenue"
-              value={formatCurrency(totalRevenue)}
-              icon={DollarSign}
-            />
-          </div>
-
-          <RevenueChart rentals={rentals ?? []} />
-        </>
-      )}
+        <StatCard
+          label="Categories"
+          value={
+            isLoading
+              ? "..."
+              : categories?.length ?? 0
+          }
+          icon={Tags}
+        />
+      </div>
     </div>
   );
 }

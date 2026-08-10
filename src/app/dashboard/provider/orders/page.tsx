@@ -10,7 +10,7 @@ import { ClipboardList } from "lucide-react";
 import { toast } from "sonner";
 import { RentalStatus } from "@/types";
 
-const nextActionByStatus: Partial<
+const nextActionByStatus: Partial
   Record<RentalStatus, { label: string; next: RentalStatus }>
 > = {
   PLACED: { label: "Confirm", next: "CONFIRMED" },
@@ -21,6 +21,10 @@ const nextActionByStatus: Partial<
 export default function ProviderOrdersPage() {
   const { data: orders, isLoading } = useProviderOrders();
   const updateStatus = useUpdateOrderStatus();
+
+  // useProviderOrders() returns a plain array (RentalOrder[]) directly —
+  // no need to unwrap an "orders" property from it.
+  const orderList = orders ?? [];
 
   const handleUpdate = async (id: string, status: RentalStatus) => {
     try {
@@ -60,18 +64,16 @@ export default function ProviderOrdersPage() {
               Array.from({ length: 3 }).map((_, i) => (
                 <TableRowSkeleton key={i} cols={6} />
               ))
-            ) : !orders || orders.length === 0 ? (
+            ) : orderList.length === 0 ? (
               <tr>
                 <td colSpan={6} className="py-12">
-                  <EmptyState
-                    icon={ClipboardList}
-                    title="No orders yet"
-                  />
+                  <EmptyState icon={ClipboardList} title="No orders yet" />
                 </td>
               </tr>
             ) : (
-              orders.map((order) => {
-                const action = nextActionByStatus[order.status];
+              orderList.map((order) => {
+                const orderStatus = order.status as RentalStatus;
+                const action = nextActionByStatus[orderStatus];
 
                 return (
                   <tr
@@ -82,21 +84,17 @@ export default function ProviderOrdersPage() {
                       <p className="font-medium text-slate-900 dark:text-white">
                         {order.customer?.name}
                       </p>
-
                       <p className="text-xs text-slate-400 dark:text-slate-500">
                         {order.customer?.email}
                       </p>
                     </td>
 
                     <td className="px-4 py-3 text-slate-700 dark:text-slate-300">
-                      {order.items
-                        .map((i) => i.gearItem.name)
-                        .join(", ")}
+                      {order.items.map((i) => i.gearItem.name).join(", ")}
                     </td>
 
                     <td className="px-4 py-3 text-slate-500 dark:text-slate-400">
-                      {formatDate(order.startDate)} –{" "}
-                      {formatDate(order.endDate)}
+                      {formatDate(order.startDate)} – {formatDate(order.endDate)}
                     </td>
 
                     <td className="px-4 py-3 font-medium text-slate-900 dark:text-white">
@@ -112,9 +110,7 @@ export default function ProviderOrdersPage() {
                         <Button
                           size="sm"
                           isLoading={updateStatus.isPending}
-                          onClick={() =>
-                            handleUpdate(order.id, action.next)
-                          }
+                          onClick={() => handleUpdate(order.id, action.next)}
                         >
                           {action.label}
                         </Button>
