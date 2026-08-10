@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import StatsCards from "./StatsCards";
 
@@ -15,6 +15,11 @@ type Slide = {
 };
 
 export default function HeroContent({ slide }: { slide: Slide }) {
+  // Split the title so the last word can be highlighted with a gradient
+  const words = slide.title.split(" ");
+  const lastWord = words.pop();
+  const restOfTitle = words.join(" ");
+
   return (
     <div className="absolute inset-0 z-20 flex items-center">
       <div className="mx-auto grid w-full max-w-7xl grid-cols-1 items-center gap-12 px-6 lg:grid-cols-2">
@@ -39,7 +44,10 @@ export default function HeroContent({ slide }: { slide: Slide }) {
             transition={{ delay: 0.35 }}
             className="mt-6 text-5xl font-extrabold leading-tight text-white lg:text-7xl"
           >
-            {slide.title}
+            {restOfTitle}{" "}
+            <span className="bg-gradient-to-r from-emerald-400 via-emerald-300 to-teal-300 bg-clip-text text-transparent">
+              {lastWord}
+            </span>
           </motion.h1>
 
           <motion.p
@@ -79,6 +87,22 @@ export default function HeroContent({ slide }: { slide: Slide }) {
         {/* RIGHT */}
         <StatsCards />
       </div>
+
+      {/* Scroll indicator */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1.2, duration: 0.6 }}
+        className="absolute bottom-24 left-1/2 -translate-x-1/2 z-30 flex flex-col items-center gap-2 text-white/60"
+      >
+        <span className="text-xs uppercase tracking-widest">Scroll</span>
+        <motion.div
+          animate={{ y: [0, 8, 0] }}
+          transition={{ duration: 1.6, repeat: Infinity, ease: "easeInOut" }}
+        >
+          <ChevronDown size={20} />
+        </motion.div>
+      </motion.div>
     </div>
   );
 }

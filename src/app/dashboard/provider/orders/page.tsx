@@ -1,34 +1,54 @@
 "use client";
 
+import { useState } from "react";
 import { useProviderOrders, useUpdateOrderStatus } from "@/lib/api/rentals";
 import { StatusBadge } from "@/components/ui/status-badge";
 import { formatCurrency, formatDate } from "@/lib/utils";
 import { TableRowSkeleton } from "@/components/ui/skeleton";
 import { EmptyState } from "@/components/ui/empty-state";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Select } from "@/components/ui/select";
+import { Pagination } from "@/components/ui/pagination";
 import { ClipboardList } from "lucide-react";
 import { toast } from "sonner";
 import { RentalStatus } from "@/types";
 
-const nextActionByStatus: Partial
-  Record<RentalStatus, { label: string; next: RentalStatus }>
-> = {
+const nextActionByStatus: Partial<Record<RentalStatus, { label: string; next: RentalStatus }>> = {
   PLACED: { label: "Confirm", next: "CONFIRMED" },
   PAID: { label: "Mark Picked Up", next: "PICKED_UP" },
   PICKED_UP: { label: "Mark Returned", next: "RETURNED" },
 };
 
+const STATUS_OPTIONS: RentalStatus[] = [
+  "PLACED",
+  "CONFIRMED",
+  "CANCELLED",
+  "PAID",
+  "PICKED_UP",
+  "RETURNED",
+];
+
 export default function ProviderOrdersPage() {
-  const { data: orders, isLoading } = useProviderOrders();
+  const [page, setPage] = useState(1);
+  const [search, setSearch] = useState("");
+  const [status, setStatus] = useState<RentalStatus | "">("");
+
+  const { data, isLoading } = useProviderOrders({
+    page,
+    limit: 10,
+    search,
+    status: status || undefined,
+  });
   const updateStatus = useUpdateOrderStatus();
 
-  // useProviderOrders() returns a plain array (RentalOrder[]) directly —
-  // no need to unwrap an "orders" property from it.
-  const orderList = orders ?? [];
+  // Backend returns { data: RentalOrder[], meta: {...} } for pagination.
+  const orderList = data?.data ?? [];
+  const meta = data?.meta;
 
-  const handleUpdate = async (id: string, status: RentalStatus) => {
+  const handleUpdate = async (id: string, newStatus: RentalStatus) => {
     try {
-      await updateStatus.mutateAsync({ id, status });
+      await updateStatus.mutateAsync({ id, status: newStatus });
       toast.success("Order status updated");
     } catch (err: unknown) {
       const e = err as { message?: string };
@@ -41,10 +61,37 @@ export default function ProviderOrdersPage() {
       <h1 className="text-2xl font-bold text-slate-900 dark:text-white">
         Incoming Orders
       </h1>
-
       <p className="mt-1 text-slate-500 dark:text-slate-400">
         Manage orders containing your gear.
       </p>
+
+      {/* Filters */}
+      <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-center">
+        <Input
+          placeholder="Search by customer name or email..."
+          value={search}
+          onChange={(e) => {
+            setSearch(e.target.value);
+            setPage(1);
+          }}
+          className="sm:max-w-xs"
+        />
+        <Select
+          value={status}
+          onChange={(e) => {
+            setStatus(e.target.value as RentalStatus | "");
+            setPage(1);
+          }}
+          className="sm:max-w-[180px]"
+        >
+          <option value="">All statuses</option>
+          {STATUS_OPTIONS.map((s) => (
+            <option key={s} value={s}>
+              {s.replace("_", " ")}
+            </option>
+          ))}
+        </Select>
+      </div>
 
       <div className="mt-6 overflow-x-auto rounded-xl border border-slate-200 bg-white dark:border-slate-700 dark:bg-slate-900">
         <table className="w-full text-sm">
@@ -67,7 +114,7 @@ export default function ProviderOrdersPage() {
             ) : orderList.length === 0 ? (
               <tr>
                 <td colSpan={6} className="py-12">
-                  <EmptyState icon={ClipboardList} title="No orders yet" />
+                  <EmptyState icon={ClipboardList} title="No orders found" />
                 </td>
               </tr>
             ) : (
@@ -127,6 +174,14 @@ export default function ProviderOrdersPage() {
           </tbody>
         </table>
       </div>
+
+      {meta && (
+        <Pagination
+          page={meta.page}
+          totalPages={meta.totalPages}
+          onPageChange={setPage}
+        />
+      )}
     </div>
   );
 }

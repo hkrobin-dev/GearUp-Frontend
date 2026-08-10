@@ -5,16 +5,47 @@
 :root {
   --background: #ffffff;
   --foreground: #0f172a;
+
+  /* shadcn-style design tokens used across landing page components */
+  --card: #ffffff;
+  --card-foreground: #0f172a;
+
+  --border: #e2e8f0;
+
+  --primary: #059669;
+  --primary-foreground: #ffffff;
+
+  --muted-foreground: #64748b;
 }
 
 .dark {
   --background: #020617;
   --foreground: #f8fafc;
+
+  --card: #0f172a;
+  --card-foreground: #f1f5f9;
+
+  --border: #334155;
+
+  --primary: #10b981;
+  --primary-foreground: #ffffff;
+
+  --muted-foreground: #94a3b8;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+
+  --color-border: var(--border);
+
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+
+  --color-muted-foreground: var(--muted-foreground);
 }
 
 body {
@@ -26,11 +57,11 @@ body {
     background-color 0.3s ease,
     color 0.3s ease;
 }
+
 @keyframes kenburns {
   0% {
     transform: scale(1) translate3d(0, 0, 0);
   }
-
   100% {
     transform: scale(1.12) translate3d(-2%, -2%, 0);
   }
@@ -39,15 +70,14 @@ body {
 .animate-kenburns {
   animation: kenburns 18s ease-in-out infinite alternate;
 }
+
 @keyframes floating {
   0% {
     transform: translateY(0px);
   }
-
   50% {
     transform: translateY(-12px);
   }
-
   100% {
     transform: translateY(0px);
   }
@@ -57,12 +87,18 @@ body {
   animation: floating 5s ease-in-out infinite;
 }
 
-@keyframes float{
-0%{transform:translateY(0);}
-50%{transform:translateY(-12px);}
-100%{transform:translateY(0);}
+@keyframes float {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-12px);
+  }
+  100% {
+    transform: translateY(0);
+  }
 }
 
-.animate-float{
-animation:float 5s ease-in-out infinite;
+.animate-float {
+  animation: float 5s ease-in-out infinite;
 }

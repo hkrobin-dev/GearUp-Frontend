@@ -146,7 +146,7 @@ return (
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ delay: 0.2 }}
-        className=" rounded-3xl bg-primary px-8 py-12 text-center text-primary-foreground"
+        className=" rounded-3xl mt-4 bg-primary px-8 py-12 text-center text-primary-foreground"
       >
         
         <p className="mx-auto mt-4 max-w-2xl opacity-90">
