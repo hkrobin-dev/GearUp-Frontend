@@ -206,6 +206,27 @@ export function Footer() {
             >
               Browse Gear
             </Link>
+
+            <Link
+              href="/help"
+              className="transition hover:text-emerald-400"
+            >
+              Help
+            </Link>
+
+            <Link
+              href="/privacy"
+              className="transition hover:text-emerald-400"
+            >
+              Privacy Policy
+            </Link>
+
+            <Link
+              href="/terms"
+              className="transition hover:text-emerald-400"
+            >
+              Terms of Service
+            </Link>
           </div>
         </div>
       </div>

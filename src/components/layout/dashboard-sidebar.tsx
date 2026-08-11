@@ -43,7 +43,7 @@ const navByRole: Record<
       icon: CreditCard,
     },
     {
-      href: "/dashboard/customer/profile",
+      href: "/dashboard/profile",
       label: "Profile",
       icon: User,
     },
@@ -70,6 +70,7 @@ const navByRole: Record<
       label: "Orders",
       icon: ClipboardList,
     },
+    { href: "/dashboard/profile", label: "Profile", icon: User },
   ],
 
   ADMIN: [
@@ -103,6 +104,7 @@ const navByRole: Record<
       label: "Categories",
       icon: Tags,
     },
+    { href: "/dashboard/profile", label: "Profile", icon: User },
   ],
 };
 

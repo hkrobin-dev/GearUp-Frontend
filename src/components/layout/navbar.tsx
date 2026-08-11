@@ -162,7 +162,7 @@ export function Navbar() {
                     {/* Customer Profile Only */}
                     {user.role === "CUSTOMER" && (
                       <Link
-                        href="/dashboard/customer/profile"
+                        href="/dashboard/profile"
                         onClick={() => setProfileOpen(false)}
                         className="flex items-center gap-2 rounded-lg px-3 py-2.5 text-sm text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800"
                       >
@@ -297,7 +297,7 @@ export function Navbar() {
               {/* Customer Profile Only */}
               {user.role === "CUSTOMER" && (
                 <Link
-                  href="/dashboard/customer/profile"
+                  href="/dashboard/profile"
                   onClick={() => setOpen(false)}
                   className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800"
                 >

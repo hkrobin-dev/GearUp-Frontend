@@ -72,7 +72,7 @@ export default function HeroContent({ slide }: { slide: Slide }) {
               </Button>
             </Link>
 
-            <Link href="/auth/register">
+            <Link href="/auth/register?role=provider">
               <Button
                 size="lg"
                 variant="outline"

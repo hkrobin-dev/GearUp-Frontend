@@ -1,20 +1,29 @@
 "use client";
 
+import { Suspense } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { registerSchema, RegisterFormValues } from "@/lib/schemas/auth.schema";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useRegister } from "@/lib/api/auth";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import { User as UserIcon, Store } from "lucide-react";
 
-export default function RegisterPage() {
+function RegisterForm() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const registerMutation = useRegister();
+
+  // /become-provider or the hero "Become a Provider" button can link here
+  // with ?role=provider to pre-select the Provider tab.
+  const initialRole =
+    searchParams.get("role")?.toUpperCase() === "PROVIDER"
+      ? "PROVIDER"
+      : "CUSTOMER";
 
   const {
     register,
@@ -24,7 +33,7 @@ export default function RegisterPage() {
     formState: { errors },
   } = useForm<RegisterFormValues>({
     resolver: zodResolver(registerSchema),
-    defaultValues: { role: "CUSTOMER" },
+    defaultValues: { role: initialRole },
   });
 
   const role = watch("role");
@@ -275,5 +284,13 @@ export default function RegisterPage() {
       </div>
 
     </div>
+  );
+}
+
+export default function RegisterPage() {
+  return (
+    <Suspense fallback={null}>
+      <RegisterForm />
+    </Suspense>
   );
 }

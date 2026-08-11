@@ -7,14 +7,27 @@ const roleProtectedRoutes: { prefix: string; roles: string[] }[] = [
   { prefix: "/dashboard/admin", roles: ["ADMIN"] },
 ];
 
+// Shared route accessible by ANY authenticated role (e.g. profile page).
+const sharedProtectedPrefixes = ["/dashboard/profile"];
+
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  const matched = roleProtectedRoutes.find((r) => pathname.startsWith(r.prefix));
-  if (!matched) return NextResponse.next();
-
   const token = request.cookies.get("gearup_token")?.value;
   const role = request.cookies.get("gearup_role")?.value;
+
+  // Shared routes: just require any logged-in user, no role restriction.
+  if (sharedProtectedPrefixes.some((p) => pathname.startsWith(p))) {
+    if (!token || !role) {
+      const loginUrl = new URL("/auth/login", request.url);
+      loginUrl.searchParams.set("redirect", pathname);
+      return NextResponse.redirect(loginUrl);
+    }
+    return NextResponse.next();
+  }
+
+  const matched = roleProtectedRoutes.find((r) => pathname.startsWith(r.prefix));
+  if (!matched) return NextResponse.next();
 
   // Not logged in at all -> send to login, remember where they were headed
   if (!token || !role) {
