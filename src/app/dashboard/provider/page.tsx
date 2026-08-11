@@ -12,13 +12,17 @@ export default function ProviderOverviewPage() {
   const { data: gear, isLoading: gearLoading } = useProviderGear();
   const { data: orders, isLoading: ordersLoading } = useProviderOrders();
 
+  const providerOrders = Array.isArray(orders)
+    ? orders
+    : (orders as { orders?: Array<{ status: string }> } | undefined)?.orders ?? [];
+
   const pending =
-    orders?.filter((o) => o.status === "PLACED").length ?? 0;
+    providerOrders.filter((o) => o.status === "PLACED").length;
 
   const active =
-    orders?.filter(
+    providerOrders.filter(
       (o) => !["RETURNED", "CANCELLED"].includes(o.status)
-    ).length ?? 0;
+    ).length;
 
   return (
     <div>
