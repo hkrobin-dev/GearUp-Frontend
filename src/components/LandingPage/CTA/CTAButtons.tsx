@@ -34,7 +34,7 @@ export default function CTAButtons() {
           <Button
             size="lg"
             variant="outline"
-            className="h-12 rounded-xl border-white/40 bg-white/10 px-8 font-semibold text-white backdrop-blur-md transition-all duration-300 hover:bg-white hover:text-emerald-600"
+            className="h-12 rounded-xl border-white/40 bg-white/10 px-8 font-semibold text-shadow-emerald-50 backdrop-blur-md transition-all duration-300 hover:bg-white hover:text-emerald-600"
           >
             Become a Provider
           </Button>

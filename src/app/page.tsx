@@ -8,6 +8,7 @@ import CTASection from "@/components/LandingPage/CTA/CTASection";
 import Testimonials from "@/components/LandingPage/Testimonials";
 import { GearCategories } from "@/components/gear/gear-categories";
 import { Reveal } from "@/components/ui/reveal";
+import LocationMap from "@/components/LandingPage/LocationMap";
 
 const trustItems = [
   {
@@ -87,6 +88,9 @@ export default function HomePage() {
         </Reveal>
         <Reveal>
           <Testimonials />
+        </Reveal>
+        <Reveal>
+          <LocationMap />
         </Reveal>
         <Reveal>
           <CTASection />
