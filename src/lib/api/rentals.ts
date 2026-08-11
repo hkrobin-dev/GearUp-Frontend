@@ -81,7 +81,7 @@ export function useCreateRental() {
       payload: CreateRentalPayload,
     ) => {
       const res =
-        await api.post<ApiSuccess<unknown>>(
+        await api.post<ApiSuccess<RentalOrder>>(
           "/rentals",
           payload,
         );

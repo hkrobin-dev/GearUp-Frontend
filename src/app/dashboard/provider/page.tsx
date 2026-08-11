@@ -10,19 +10,17 @@ import { Button } from "@/components/ui/button";
 
 export default function ProviderOverviewPage() {
   const { data: gear, isLoading: gearLoading } = useProviderGear();
-  const { data: orders, isLoading: ordersLoading } = useProviderOrders();
+  const { data: ordersResponse, isLoading: ordersLoading } =
+    useProviderOrders({ page: 1, limit: 100 });
 
-  const providerOrders = Array.isArray(orders)
-    ? orders
-    : (orders as { orders?: Array<{ status: string }> } | undefined)?.orders ?? [];
+  // useProviderOrders() returns { data: RentalOrder[], meta: {...} }
+  const providerOrders = ordersResponse?.data ?? [];
 
-  const pending =
-    providerOrders.filter((o) => o.status === "PLACED").length;
+  const pending = providerOrders.filter((o) => o.status === "PLACED").length;
 
-  const active =
-    providerOrders.filter(
-      (o) => !["RETURNED", "CANCELLED"].includes(o.status)
-    ).length;
+  const active = providerOrders.filter(
+    (o) => !["RETURNED", "CANCELLED"].includes(o.status)
+  ).length;
 
   return (
     <div>
@@ -50,18 +48,8 @@ export default function ProviderOverviewPage() {
         </div>
       ) : (
         <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-3">
-          <StatCard
-            label="Gear Listed"
-            value={gear?.length ?? 0}
-            icon={Package}
-          />
-
-          <StatCard
-            label="Active Orders"
-            value={active}
-            icon={Clock}
-          />
-
+          <StatCard label="Gear Listed" value={gear?.length ?? 0} icon={Package} />
+          <StatCard label="Active Orders" value={active} icon={Clock} />
           <StatCard
             label="Pending Confirmation"
             value={pending}
