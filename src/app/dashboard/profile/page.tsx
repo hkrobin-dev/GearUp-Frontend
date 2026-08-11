@@ -137,7 +137,7 @@ export default function CustomerProfilePage() {
   const isSaving = updateProfile.isPending;
 
   return (
-    <div className="space-y-6">
+    <div className="container mx-auto w-full space-y-6 px-4 sm:px-6 lg:px-8 ">
       {/* Header */}
       <div>
         <h1 className="text-2xl font-bold text-slate-900 dark:text-white">
