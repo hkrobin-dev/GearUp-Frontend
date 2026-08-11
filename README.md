@@ -48,3 +48,29 @@ Google Sign-In is also available on the Login page (creates a Customer account a
 | Axios | HTTP client |
 
 ## 📁 Project Structure
+
+## 🚀 Getting Started Locally
+
+```bash
+git clone https://github.com/hkrobin-dev/GearUp-Frontend.git
+cd GearUp-Frontend
+npm install
+cp .env.local.example .env.local   # fill in NEXT_PUBLIC_API_URL and Stripe publishable key
+npm run dev
+```
+
+Open [http://localhost:3000](http://localhost:3000).
+
+## 🌐 Environment Variables
+## 💳 Payment Flow
+
+1. Customer selects rental dates on a gear detail page → order is created
+2. Customer clicks "Pay Now" → redirected to Stripe Checkout
+3. On success → redirected to `/payment/success`, which confirms the payment with the backend and updates order status
+4. On cancellation → redirected to `/payment/cancel`, order remains unpaid and can be retried
+
+Test card: `4242 4242 4242 4242`, any future expiry, any CVC.
+
+## 📝 API Integration
+
+See `API_INTEGRATION.md` for a full mapping of frontend pages/components to backend endpoints.
